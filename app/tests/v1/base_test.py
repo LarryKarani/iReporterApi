@@ -2,12 +2,12 @@ from unittest import TestCase
 
 #local imports
 from instance import create_app
-from api.v1.models import redflag_db
+from app.api.v1.models import db
 
 class BaseTestCase(TestCase):
     def setUp(self):
         self.app = create_app('testing')
-        self.db = redflag_db
+        self.db = db
         self.client = self.app.test_client()
 
         self.redflag_data = {
