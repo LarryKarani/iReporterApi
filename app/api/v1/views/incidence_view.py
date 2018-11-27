@@ -18,8 +18,7 @@ class Incidences(Resource):
     '''Shows a list of all incedences and allow users to create a new incedence'''
 
     def get(self):
-        '''List all incidence'''
-
+        '''gets all incidences available in the db'''
         return db, 200
 
 
