@@ -2,7 +2,7 @@ from unittest import TestCase
 
 #local imports
 from instance import create_app
-from app.api.v1.models import db
+from app.api.v1.models.incidence_model import db
 
 class BaseTestCase(TestCase):
     def setUp(self):
