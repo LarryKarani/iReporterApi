@@ -56,14 +56,14 @@ class AnIncidence(Resource):
     def delete(self, red_id):
         '''deletes a specific incidence'''
         new_instance = Incidence()
-        response = new_instance.delete(red_id)
+        output = new_instance.delete(red_id)
 
-        if len(response)==0:
-            return {'message': 'incidence with given id does not exist'}, 400
+        if len(output)==0:
+            return {'message': 'incidence with given id {} does not exist'.format(red_id)}, 400
 
         return {
              'status':200,
-             'data' : response
+             'data' : output
               }
        
 
