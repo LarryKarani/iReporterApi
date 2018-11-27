@@ -59,7 +59,7 @@ class AnIncidence(Resource):
         response = new_instance.delete(red_id)
 
         if len(response)==0:
-            return {'message': 'incidence does not exist'}, 400
+            return {'message': 'incidence with given id does not exist'}, 400
 
         return {
              'status':200,
