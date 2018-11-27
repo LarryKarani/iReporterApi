@@ -34,7 +34,6 @@ class Incedence(Resource):
         return {
             "message": "incedence created",
             "data": output
-        
         }
 
 v1_incedence.add_resource(Incedence, '/incidence', strict_slashes=False)
