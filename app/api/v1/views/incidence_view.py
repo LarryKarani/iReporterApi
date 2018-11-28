@@ -69,6 +69,31 @@ class AnIncidence(Resource):
              'data' : output
               }
 
+update_location = {"location": webargs.fields.Str(required=True)}
+update_location_args_model = v1_incidence.model(
+        "update_location_args", {"location": fields.String(required=True)})
+class UpdateLocation(Resource):
+    @v1_incidence.doc(body=update_location_args_model)
+    def patch(self, red_id):
+        '''changes location of an incidence'''
+        data = v1_incidence.payload
+        new_instance = Incidence()
+
+        target = new_instance.location_patcher(red_id, data['location'])
+        if target == 'Not allowed':
+            return {"message": "you cant change location for this intervention its status is changed"}, 204
+
+        if not target:
+            return {'message': 'incidence does not exist'}
+
+        else:
+            return {
+                 'status':200, 
+                 "data" : [target],
+                 "id" : target['id'],
+                 "message" : "Updated red-flag record’s location"
+             }
+
 
 
 
