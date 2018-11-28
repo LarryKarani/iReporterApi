@@ -10,6 +10,7 @@ def validate_length(input):
 
 
 class UserSchema(Schema):
+    '''schema for validating signup data'''
     firstname = fields.String(required=True, validate=validate_length)
     lastname = fields.String(required=True, validate=validate_length)
     othername = fields.String(required=True, validate=validate_length)
@@ -21,4 +22,9 @@ class UserSchema(Schema):
     def validate_phonenumber(self, phoneNumber):
         if len(phoneNumber)<10:
             raise ValidationError('phone number should be 10 characters  long')
+
+class LoginSchema(Schema):
+    '''schema for validating login data'''
+    username = fields.String(required=True, validate=validate_length)
+    password = fields.String(required=True, validate=validate_length)
     
