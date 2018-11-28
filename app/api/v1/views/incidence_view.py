@@ -94,6 +94,34 @@ class UpdateLocation(Resource):
                  "message" : "Updated red-flag record’s location"
              }
 
+update_comment = {"comment": webargs.fields.Str(required=True)}
+update_comment_args_model = v1_incidence.model(
+        "update_comment_args", {"comment": fields.String(required=True)})
+class UpdateComment(Resource):
+    @v1_incidence.doc(body=update_comment_args_model)
+    def patch(self, red_id):
+        '''changes location of an incidence'''
+        data = v1_incidence.payload
+        new_instance = Incidence()
+
+        target = new_instance.location_patcher(red_id, data['location'])
+        if target == 'Not allowed':
+            return {"message": "you cant change the comment for this intervention its status is changed"}, 204
+
+        if not target:
+            return {'message': 'incidence does not exist'}
+
+        else:
+            return {
+                 'status':200, 
+                 "data" : [target],
+                 "id" : target['id'],
+                 "message" : "Updated red-flag record’s comment"
+             }
+
+
+
+
 
 
 
@@ -102,7 +130,7 @@ class UpdateLocation(Resource):
 v1_incidence.add_resource(Incidences, '/' , strict_slashes=False)
 v1_incidence.add_resource(AnIncidence, '/<int:red_id>', strict_slashes=False)
 v1_incidence.add_resource(UpdateLocation, '/<int:red_id>/location', strict_slashes=False)
-
+v1_incidence.add_resource(UpdateComment, '/<int:red_id>/comment', strict_slashes=False)
         
 
 

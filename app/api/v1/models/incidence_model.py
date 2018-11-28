@@ -46,6 +46,20 @@ class Incidence:
 
         return False
 
+    def comment_patcher(self, red_id, value):
+        """change value only if its still a draft"""
+        incidence= self.get_an_incidence(red_id)
+        if len(incidence)!= 0:
+            if incidence[0]['status'] == 'draft':
+                incidence[0]['comment'] = value
+
+                return incidence[0]
+
+            else:
+                 return 'Not allowed'
+
+        return False
+
 
 
         
