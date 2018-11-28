@@ -142,7 +142,7 @@ class UpdateStatus(Resource):
                  'status':200, 
                  "data" : [target],
                  "id" : target['id'],
-                 "message" : "Updated red-flag record’s status"
+                 "message" : "Updated incidence record’s status"
              }
              
 
