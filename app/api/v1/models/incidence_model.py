@@ -32,18 +32,24 @@ class Incidence:
        
         return output
     
-    def update(self, id, data):
-        '''updates a specific incidence'''
-        incidence = self.get_an_incidence(id)
-        if len(incidence)==0:
-            return {"message": "incidence does not exist"},400
-        #check to see if the status has been changed
-        if incidence[0]['status']!= 'draft':
-            return {'message': 'This incidence cannot be updated its status is {}'.format(incidence['status'])}, 401
+    def location_patcher(self, red_id, value):
+        """change value only if its still a draft"""
+        incidence= self.get_an_incidence(red_id)
+        if len(incidence)!= 0:
+            if incidence[0]['status'] == 'draft':
+                incidence[0]['location'] = value
 
-        incidence.update(data)
+                return incidence[0]
 
-        return incidence
+            else:
+                 return 'Not allowed'
+
+        return False
+
+
+
+        
+
 
     def delete(self, id):
         '''delete a specific incidence'''
