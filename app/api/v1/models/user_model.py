@@ -37,7 +37,14 @@ class Users():
             return False
         return output[0]
 
-        
+    def get_email(self, email):
+        output = [user for user in self.db if user['email']== email]
+        if len(output) == 0:
+            return False
+        return output[0]
+
+
+
 
 
         

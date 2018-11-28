@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask_restplus import Api
 
 from app.api.v1.views.incidence_view import v1_incidence
+from app.api.v1.views.user import v1_user
 
 v1_blueprint =Blueprint('v1_blueprint', __name__, url_prefix='/api/v1')
 v1_api = Api(v1_blueprint,
@@ -12,4 +13,5 @@ v1_api = Api(v1_blueprint,
              project_owner= "Andela_Kenya")
 
 v1_api.add_namespace(v1_incidence)
+v1_api.add_namespace(v1_user)
             
