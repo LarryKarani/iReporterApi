@@ -8,10 +8,7 @@ from app.api.v1.models.incidence_model import Incidence, db
 from app.api.v1.validators.validate_incidence import IncidenceSchema
 
 v1_incidence = Namespace('red-flags')
-update_location = {"createdBy": webargs.fields.Str(required=True),
-                   "type": webargs.fields.Str(required=True),
-                   "location": webargs.fields.Str(required=True),
-                   "comment": webargs.fields.Str(required=True),}
+
 incidence_data = v1_incidence.model('Incidences',{
                        'createdBy' :fields.String(description='name of the user creating the red-flag'), 
                        'incidence_type' :fields.String(description='name of the user creating the red-flag'),       
@@ -81,8 +78,10 @@ class AnIncidence(Resource):
              'data' : output
               }
 
-#documentation
+
 update_location = {"location": webargs.fields.Str(required=True)}
+
+#documentation
 update_location_args_model = v1_incidence.model(
         "update_location_args", {"location": fields.String(required=True)})
 class UpdateLocation(Resource):
