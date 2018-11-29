@@ -76,6 +76,88 @@ class BaseTestCase(unittest.TestCase):
              "status": "3333,5555"
          }
 
+         #user data
+
+        self.user_data = {
+            "firstname": "larry",
+            "lastname": "kubende",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilarry@gmail.com",
+            "phoneNumber": "0701043047",
+            "username": "larrythegeek"
+            }
+
+        self.user_data_empty_firstname ={
+
+            "firstname": " ",
+            "lastname": "kubende",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilarry@gmail.com",
+            "phoneNumber": "0701043047",
+            "username": "larrythegeek"
+
+        }
+
+        self.user_data_empty_lastname = {
+
+            "firstname": "larry",
+            "lastname": " ",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilarry@gmail.com",
+            "phoneNumber": "0701043047",
+            "username": "larrythegeek"
+
+        }
+
+        self.user_data_empty_password = {
+
+            "firstname": "larry",
+            "lastname": "kubende ",
+            "othername": "karani",
+            "password": " ",
+            "email": "karanilarry@gmail.com",
+            "phoneNumber": "0701043047",
+            "username": "larrythegeek"
+
+        }
+
+        self.user_data_invalid_email= {
+
+            "firstname": "larry",
+            "lastname": "kubesh",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilgmailcom",
+            "phoneNumber": "0701043047",
+            "username": "larrythegeek"
+
+        }
+
+        self.user_data_invalid_phone ={
+
+            "firstname": "larry",
+            "lastname": "kubesh",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilgmailcom",
+            "phoneNumber": "070",
+            "username": "larrythegeek"
+
+        }
+        self.user_data_empty_username = {
+
+            "firstname": "larry",
+            "lastname": "kubesh",
+            "othername": "karani",
+            "password": "6398litein",
+            "email": "karanilgmailcom",
+            "phoneNumber": "0701043047",
+            "username": " "
+
+        }
         
 
 
