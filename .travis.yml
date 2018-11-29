@@ -6,10 +6,11 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install nose
+  - install coveralls
 
 # command to run tests
 script:
- - pytest --cov=./app
+ - nosetests --rednose --with-coverage --cover-package=app -v
 
 
 after_success:
