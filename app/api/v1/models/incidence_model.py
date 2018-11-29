@@ -80,7 +80,7 @@ class Incidence:
 
         incidence = self.get_an_incidence(id)
         if len(incidence)==0:
-            return {"message": "incidence does not exist"},400
+            return False
 
         data = incidence[0]['status']= status
 
