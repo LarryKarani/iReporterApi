@@ -71,9 +71,14 @@ class BaseTestCase(unittest.TestCase):
         self.comment_data= {
              "comment": "3333,5555"
          }
+
         self.update_redflag_status = {
              "status": "3333,5555"
          }
+
+        
+        
+
 
         
         
