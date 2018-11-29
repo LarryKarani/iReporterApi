@@ -8,9 +8,6 @@ def validate_length(input):
     if input.strip()=='':
         raise ValidationError({'message':'fields cannot be blanck'})
 
-    #remove special characters
-    elif not re.match(r"^(?=.*[a-z])[a-zA-Z0-9_.-]{3,25}$", input):
-        raise ValidationError("{} is not a valid input".format(input))
 
 class IncidenceSchema(Schema):
     '''Validates incidence data'''
