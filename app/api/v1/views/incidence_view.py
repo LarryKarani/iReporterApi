@@ -1,5 +1,6 @@
 import webargs
 from flask_restplus import Resource, fields, Namespace
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 
 
@@ -7,7 +8,15 @@ from flask_restplus import Resource, fields, Namespace
 from app.api.v1.models.incidence_model import Incidence, db
 from app.api.v1.validators.validate_incidence import IncidenceSchema
 
-v1_incidence = Namespace('red-flags')
+authorizations = {
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'authorization'
+    }
+}
+
+v1_incidence = Namespace('red-flags', authorizations=authorizations, security='apikey')
 
 incidence_data = v1_incidence.model('Incidences',{
                        'createdBy' :fields.String(description='name of the user creating the red-flag'), 
@@ -16,15 +25,21 @@ incidence_data = v1_incidence.model('Incidences',{
                        'comment': fields.String(description='name of the user creating the red-flag')
 })
 
+
+
+@v1_incidence.header("Authorization", "Access tokken", required=True)
 class Incidences(Resource):
     '''Shows a list of all incedences and allow users to create a new incedence'''
-
+    @v1_incidence.doc(security='apikey')
+    @jwt_required
     def get(self):
         '''gets all incidences available in the db'''
         return db, 200
 
-
+    
     @v1_incidence.expect(incidence_data)
+    @v1_incidence.doc(security='apikey')
+    @jwt_required
     def post(self):
         '''Create a new incidence'''
 
@@ -50,9 +65,12 @@ class Incidences(Resource):
                            }]
                }
 
+@v1_incidence.header("Authorization", "Access tokken", required=True)
 class AnIncidence(Resource):
     '''gets a single incidence, updates an incidence, change the status of an incidence'''
-  
+
+    @v1_incidence.doc(security='apikey')
+    @jwt_required
     def get(self, red_id):
         '''Returns details of a specific incidence'''
         new_instance = Incidence()
@@ -64,7 +82,8 @@ class AnIncidence(Resource):
                   'status': 200, 
                   'data' : response
                }
-
+    @v1_incidence.doc(security='apikey')
+    @jwt_required
     def delete(self, red_id):
         '''deletes a specific incidence'''
         new_instance = Incidence()
@@ -84,8 +103,11 @@ update_location = {"location": webargs.fields.Str(required=True)}
 #documentation
 update_location_args_model = v1_incidence.model(
         "update_location_args", {"location": fields.String(required=True)})
+
+@v1_incidence.header("Authorization", "Access tokken", required=True)
 class UpdateLocation(Resource):
-    @v1_incidence.doc(body=update_location_args_model)
+    @v1_incidence.doc(body=update_location_args_model, security='apikey')
+    @jwt_required
     def patch(self, red_id):
         '''changes location of an incidence'''
 
@@ -118,8 +140,11 @@ class UpdateLocation(Resource):
 update_comment = {"comment": webargs.fields.Str(required=True)}
 update_comment_args_model = v1_incidence.model(
         "update_comment_args", {"comment": fields.String(required=True)})
+
+@v1_incidence.header("Authorization", "Access tokken", required=True)
 class UpdateComment(Resource):
-    @v1_incidence.doc(body=update_comment_args_model)
+    @v1_incidence.doc(body=update_comment_args_model, security='apikey')
+    @jwt_required
     def patch(self, red_id):
         '''allows a user to change the location of an incidence'''
         data = v1_incidence.payload
@@ -153,8 +178,11 @@ class UpdateComment(Resource):
 update_status = {"status": webargs.fields.Str(required=True)}
 update_status_args_model = v1_incidence.model(
         "update_status_args", {"status": fields.String(required=True)})
+
+@v1_incidence.header("Authorization", "Access tokken", required=True)
 class UpdateStatus(Resource):
-    @v1_incidence.doc(body=update_status_args_model)
+    @v1_incidence.doc(body=update_status_args_model, security='apikey')
+    @jwt_required
     def patch(self, red_id):
         '''allow admin to change the status of an incidence'''
         data = v1_incidence.payload
@@ -174,12 +202,13 @@ class UpdateStatus(Resource):
             return {'message', 'invalid status'}, 400
 
         new_instance = Incidence()
-        target = new_instance.location_patcher(red_id, status)
+        target = new_instance.change_status(red_id, status)
+
         if target == 'Not allowed':
             return {"message": "you cant change the comment for this intervention its status is changed"}, 204
 
         if not target:
-            return {'message': 'incidence does not exist'}
+            return {'message': 'incidence does not exist'},404
 
         else:
             return {
