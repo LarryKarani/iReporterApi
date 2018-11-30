@@ -21,6 +21,8 @@ class Users():
         data['username'] =  username
         data['registered'] = self.registered
 
+        self.db.append(data)
+
     def get_user(self, id):
         output = [user for user in self.db if user['id']== id]
         if len(output) == 0:

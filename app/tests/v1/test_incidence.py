@@ -135,7 +135,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertEqual(data['message'], {'message': 'fields cannot be blanck'})
         self.assertTrue(response.status_code==400)
 
-
+   
     
         
         
