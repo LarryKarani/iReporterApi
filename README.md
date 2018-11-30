@@ -17,6 +17,9 @@ Method | Endpoint | Usage |
 
 [![Build Status](https://travis-ci.com/larryTheGeek/iReporterApi.svg?branch=develop)](https://travis-ci.com/larryTheGeek/iReporterApi)
 
+<a href="https://codeclimate.com/github/larryTheGeek/iReporterApi/maintainability"><img src="https://api.codeclimate.com/v1/badges/55f6147ce61b0772db62/maintainability" /></a>
+<a href="https://codeclimate.com/github/larryTheGeek/iReporterApi/test_coverage"><img src="https://api.codeclimate.com/v1/badges/55f6147ce61b0772db62/test_coverage" /></a>
+
 ## Getting Started 🕵
 - To run on local machine git clone this project :
 ```
