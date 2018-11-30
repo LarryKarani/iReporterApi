@@ -1,7 +1,5 @@
 """This module contaiins unit tests for models used in application."""
 
-from app.api.v1.models.incidence_model import Incidence
-from app.api.v1.validators.validate_user import UserSchema
 from app.api.v1.models.user_model import Users
 from .base_test import BaseTestCase
 
