@@ -17,4 +17,33 @@ Method | Endpoint | Usage |
 
 [![Build Status](https://travis-ci.com/larryTheGeek/iReporterApi.svg?branch=develop)](https://travis-ci.com/larryTheGeek/iReporterApi)
 
-[![Coverage Status](https://coveralls.io/repos/github/larryTheGeek/iReporterApi/badge.svg?branch=develop)](https://coveralls.io/github/larryTheGeek/iReporterApi?branch=develop)
+## Getting Started 🕵
+- To run on local machine git clone this project :
+```
+$ git clone https://github.com/larryTheGeek/iReporterApi.git
+```
+Copy and paste the above command in your terminal, the project will be downloaded to your local machine.
+
+### Prerequisites
+The application is built using python: flask framework.
+>[Flask](http://flask.pocoo.org/) is a microframework for the Python programming language.
+
+
+To Install python checkout:
+```
+https://www.python.org/
+```
+### Installing
+For this section I will assume you have python3 and it's configured on your machine. </br>
+Navigate to the folder you cloned and run: </br>
+
+- Install Requirements
+```
+$ pip install -r requirements.txt
+```
+- Run App 
+```
+$ python run.py
+```
+The app should be accessiable via : http://127.0.0.1:5000/
+
