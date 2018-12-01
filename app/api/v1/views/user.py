@@ -58,6 +58,10 @@ class Register(Resource):
                  'data': data
                 }, 201
 
+    def get(self):
+        users = Users()
+        return users.get_all_users()
+
 class Login(Resource):
     @v1_user.expect(user_login )
     def post(self):
