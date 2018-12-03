@@ -13,7 +13,7 @@ Method | Endpoint | Usage |
 |PATCH| `api/v1/redflag/<red_flag_id>/status` | Update a single redflag status. |
 |DELETE| `api/v1/redflag/<red_flag_id>` | Delete a single redflag. |
 
-
+[![Coverage Status](https://coveralls.io/repos/github/larryTheGeek/iReporterApi/badge.svg?branch=develop)](https://coveralls.io/github/larryTheGeek/iReporterApi?branch=develop)
 
 [![Build Status](https://travis-ci.com/larryTheGeek/iReporterApi.svg?branch=develop)](https://travis-ci.com/larryTheGeek/iReporterApi)
 
