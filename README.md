@@ -9,7 +9,7 @@ The application is built using python: flask framework.
 >[Flask](http://flask.pocoo.org/) is a microframework for the Python programming language.
 
 
-
+### End points
 Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
 |POST| `/api/v1/signup` |  Register a user. |
@@ -22,7 +22,7 @@ Method | Endpoint | Usage |
 |PATCH| `api/v1/redflag/<red_flag_id>/status` | Update a single redflag status. |
 |DELETE| `api/v1/redflag/<red_flag_id>` | Delete a single redflag. |
 
-## Getting Started 🕵
+## Installation 🕵
 - To run on local machine git clone this project :
 ```
 $ git clone https://github.com/larryTheGeek/iReporterApi.git
@@ -33,17 +33,42 @@ To Install python checkout:
 ```
 https://www.python.org/
 ```
-### Testing
-For this section I will assume you have python3 and it's configured on your machine. </br>
-Navigate to the folder you cloned and run: </br>
 
+- create a virtualenv and make it use python 3 using the following command.
+```
+$ virtualenv -p python3 env
+```
+- activate the virtual environment
+```
+ $ source env/bin/activate
+```
 - Install Requirements
 ```
 $ pip install -r requirements.txt
 ```
+### Testing
+- Run Test using pytest with the following command
+```
+$ py.test --cov=app test` 
+```
+you will get the test coverage report on your terminal
+
+
+The app can also be tested via Postman
 - Run App 
 ```
 $ python run.py
 ```
 The app should be accessiable via : http://127.0.0.1:5000/
+
+open postman and navigate to the API endpoints described above
+
+### HEROKU URL
+ https://irepoter-afric-app.herokuapp.com/api/v1
+ 
+### Owner
+- Larry Karani
+
+
+
 
