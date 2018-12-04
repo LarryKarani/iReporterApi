@@ -219,11 +219,6 @@ class UpdateStatus(Resource):
              }
              
 
-
-
-
-
-
 v1_incidence.add_resource(Incidences, '/' , strict_slashes=False)
 v1_incidence.add_resource(AnIncidence, '/<int:red_id>', strict_slashes=False)
 v1_incidence.add_resource(UpdateLocation, '/<int:red_id>/location', strict_slashes=False)

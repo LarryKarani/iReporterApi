@@ -2,7 +2,6 @@ import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import create_access_token
 
-
 #local import
 from app.api.v1.models.user_model import Users
 from app.api.v1.validators.validate_user import UserSchema, LoginSchema
@@ -21,11 +20,6 @@ registration_args_model=v1_user.model(
 
 user_login = v1_user.model('Login', {'username': fields.String('email@example.com'),
                                      'password': fields.String('test_pass')})
-
-
-
-
-
 
 class Register(Resource):
     @v1_user.expect(registration_args_model)
