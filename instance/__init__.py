@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 
 
 from .config import config
-
+#this function returns the instance of the app
 def create_app(config_name):
     """app factory creates the instance of the app"""
     app = Flask(__name__)
@@ -17,9 +17,10 @@ def create_app(config_name):
     api = v1_api
 
     jwt._set_error_handler_callbacks(api)
-    
+    # this function hundles 404 errors
     @app.errorhandler(404)
     def page_not_found(e):
+
         return jsonify({"error": "page not found"}), 404
 
     return app
