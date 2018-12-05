@@ -22,3 +22,4 @@ class TestUser(BaseTestCase):
         incidence_created = new_incidence.get_an_incidence(1)
 
         self.assertTrue(incidence_created[0]['createdBy'], 'larry')
+        

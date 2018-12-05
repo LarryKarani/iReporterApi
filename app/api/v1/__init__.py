@@ -12,6 +12,7 @@ v1_api = Api(v1_blueprint,
              contact_email="karanilarry@gmail.com",
              project_owner= "Andela_Kenya")
 
+from app.api.v1.views import routes
 v1_api.add_namespace(v1_incidence)
 v1_api.add_namespace(v1_user)
             

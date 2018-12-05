@@ -2,7 +2,6 @@ import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import create_access_token
 
-
 #local import
 from app.api.v1.models.user_model import Users
 from app.api.v1.validators.validate_user import UserSchema, LoginSchema
@@ -21,11 +20,6 @@ registration_args_model=v1_user.model(
 
 user_login = v1_user.model('Login', {'username': fields.String('email@example.com'),
                                      'password': fields.String('test_pass')})
-
-
-
-
-
 
 class Register(Resource):
     @v1_user.expect(registration_args_model)
@@ -82,14 +76,10 @@ class Login(Resource):
         if not current_user:
             return {'message': 'username does not exist'}, 400
                
-        if not (current_user['password']== data['password']):
+        if not (current_user['password'] == data['password']):
             return {'message': f'invalid username or password'}, 400
 
         access_token = create_access_token(identity=data['username'])
 
         return {'message': 'logged in as {}'.format(data['username']),
                 'access_token': access_token}, 200
-
-
-v1_user.add_resource(Register, '/register', strict_slashes=False)
-v1_user.add_resource(Login, '/login', strict_slashes=False)

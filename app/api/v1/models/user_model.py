@@ -7,11 +7,8 @@ class Users():
         self.isAdmin = False
         self.registered = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
-
     def create_user(self, firstname, lastname, othername, email, phoneNumber, username):
         data = {}
-
         data['id'] = len(self.db)+1
         data['firstname'] = firstname
         data['lastname'] = lastname
@@ -44,13 +41,3 @@ class Users():
         if len(output) == 0:
             return False
         return output[0]
-
-
-
-
-
-        
-
-
-
-

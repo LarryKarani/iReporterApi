@@ -2,8 +2,6 @@ import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-
-
 #local import 
 from app.api.v1.models.incidence_model import Incidence, db
 from app.api.v1.validators.validate_incidence import IncidenceSchema
@@ -25,8 +23,6 @@ incidence_data = v1_incidence.model('Incidences',{
                        'comment': fields.String(description='name of the user creating the red-flag')
 })
 
-
-
 @v1_incidence.header("Authorization", "Access tokken", required=True)
 class Incidences(Resource):
     '''Shows a list of all incedences and allow users to create a new incedence'''
@@ -34,6 +30,9 @@ class Incidences(Resource):
     @jwt_required
     def get(self):
         '''gets all incidences available in the db'''
+        if len(db) == 0:
+            return {'status':200,
+                     'message': 'no records available'}
         return db, 200
 
     
@@ -89,14 +88,17 @@ class AnIncidence(Resource):
         new_instance = Incidence()
         output = new_instance.delete(red_id)
 
+        if not type(red_id) == int:
+            return {"message": 'invalid id'}
+
         if len(output)==0:
             return {'message': 'incidence with given id {} does not exist'.format(red_id)}, 400
 
         return {
              'status':200,
-             'data' : output
+             'id' : output[0]['id'],
+             'message': 'record deleted successfully'
               }
-
 
 update_location = {"location": webargs.fields.Str(required=True)}
 
@@ -116,6 +118,8 @@ class UpdateLocation(Resource):
             return {'message':'please input data'}, 400
 
         loc = data['location']
+        if not loc.isalpha():
+            return {"message": "please provide a valid location"}, 400
 
         if loc.strip() =='':
             return {'message': 'please provide a valid location'}, 400
@@ -154,12 +158,13 @@ class UpdateComment(Resource):
         comment = data['comment']
         if comment.strip() == '':
             return {'message': 'please provide a valid comment'}, 400
-
+        if not comment.isalpha():
+            return {'message': 'please provide a valid comments'},400
         if not isinstance(comment, str):
             return {'message': 'comment cannot be a number'}, 400
 
         new_instance = Incidence()
-        target = new_instance.location_patcher(red_id, comment)
+        target = new_instance.comment_patcher(red_id, comment)
         if target == 'Not allowed':
             return {"message": "you cant change the comment for this intervention its status is changed"}, 204
 
@@ -218,19 +223,3 @@ class UpdateStatus(Resource):
                  "message" : "Updated incidence record’s status"
              }
              
-
-
-
-
-
-
-v1_incidence.add_resource(Incidences, '/' , strict_slashes=False)
-v1_incidence.add_resource(AnIncidence, '/<int:red_id>', strict_slashes=False)
-v1_incidence.add_resource(UpdateLocation, '/<int:red_id>/location', strict_slashes=False)
-v1_incidence.add_resource(UpdateComment, '/<int:red_id>/comment', strict_slashes=False)
-v1_incidence.add_resource(UpdateStatus, '/<int:red_id>/status', strict_slashes=False)
-        
-
-
-    
-      
