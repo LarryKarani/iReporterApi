@@ -100,3 +100,4 @@ class Incidence:
 
         output = [incidence for incidence in self.db if incidence['type']== 'interventions']
         return output
+    

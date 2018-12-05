@@ -83,7 +83,3 @@ class Login(Resource):
 
         return {'message': 'logged in as {}'.format(data['username']),
                 'access_token': access_token}, 200
-
-
-v1_user.add_resource(Register, '/register', strict_slashes=False)
-v1_user.add_resource(Login, '/login', strict_slashes=False)

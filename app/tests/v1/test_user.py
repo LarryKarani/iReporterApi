@@ -25,3 +25,4 @@ class TestRegister(BaseTestCase):
         #signup existing user
         response = self.client.post('api/v1/auth/register', data=json.dumps(self.user_data), content_type='application/json')
         self.assertTrue(response.status_code == 400)
+        

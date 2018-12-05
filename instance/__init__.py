@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,  jsonify
 from app.api.v1 import v1_blueprint
 from app.api.v1 import v1_api
 from flask_jwt_extended import JWTManager
@@ -16,4 +16,11 @@ def create_app(config_name):
     app.register_blueprint(v1_blueprint, url_prefix="/api/v1")
     api = v1_api
 
+    jwt._set_error_handler_callbacks(api)
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return jsonify({"error": "page not found"}), 404
+
     return app
+    

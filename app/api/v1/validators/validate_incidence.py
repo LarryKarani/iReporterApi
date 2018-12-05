@@ -16,7 +16,3 @@ class IncidenceSchema(Schema):
     location  = fields.String(required=True, validate=validate_length)
     comment   = fields.String(required=True,  validate=validate_length)
     incidence_type =fields.String(required=True, validate=validate_length)
-
-    
-
-

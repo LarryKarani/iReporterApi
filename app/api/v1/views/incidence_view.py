@@ -218,14 +218,3 @@ class UpdateStatus(Resource):
                  "message" : "Updated incidence record’s status"
              }
              
-
-v1_incidence.add_resource(Incidences, '/' , strict_slashes=False)
-v1_incidence.add_resource(AnIncidence, '/<int:red_id>', strict_slashes=False)
-v1_incidence.add_resource(UpdateLocation, '/<int:red_id>/location', strict_slashes=False)
-v1_incidence.add_resource(UpdateComment, '/<int:red_id>/comment', strict_slashes=False)
-v1_incidence.add_resource(UpdateStatus, '/<int:red_id>/status', strict_slashes=False)
-        
-
-
-    
-      
