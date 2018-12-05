@@ -2,8 +2,6 @@ import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-
-
 #local import 
 from app.api.v1.models.incidence_model import Incidence, db
 from app.api.v1.validators.validate_incidence import IncidenceSchema
@@ -24,8 +22,6 @@ incidence_data = v1_incidence.model('Incidences',{
                        'location' :fields.String(description='name of the user creating the red-flag'),
                        'comment': fields.String(description='name of the user creating the red-flag')
 })
-
-
 
 @v1_incidence.header("Authorization", "Access tokken", required=True)
 class Incidences(Resource):
@@ -89,14 +85,18 @@ class AnIncidence(Resource):
         new_instance = Incidence()
         output = new_instance.delete(red_id)
 
+        if not type(red_id) == int:
+            return {"message": 'invalid id'}
+
         if len(output)==0:
             return {'message': 'incidence with given id {} does not exist'.format(red_id)}, 400
 
         return {
              'status':200,
+             'message': 'record deleted successfully',
              'data' : output
+             
               }
-
 
 update_location = {"location": webargs.fields.Str(required=True)}
 
