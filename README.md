@@ -12,15 +12,15 @@ The application is built using python: flask framework.
 ### End points
 Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
-|POST| `/api/v1/signup` |  Register a user. |
-|POST| `api/v1/login` | Login user.|
-|POST| `api/v1/redflags` | Create a new red-flag. |
-|GET| `api/v1/redflags` | Get all the created redflags. |
-|GET| `api/v1/redflag/<red_flag_id>` | Get a single redflag. |
-|PATCH| `api/v1/redflag/<red_flag_id>/location` | Update a single redflag location. |
-|PATCH| `api/v1/redflag/<red_flag_id>/comment` | Update a single redflag comment. |
-|PATCH| `api/v1/redflag/<red_flag_id>/status` | Update a single redflag status. |
-|DELETE| `api/v1/redflag/<red_flag_id>` | Delete a single redflag. |
+|POST| `/api/v1/auth/register` |  Register a user. |
+|POST| `api/v1/auth/login` | Login user.|
+|POST| `api/v1/red-flags` | Create a new red-flag. |
+|GET| `api/v1/red-flags` | Get all the created redflags. |
+|GET| `api/v1/red-flags/<red_flag_id>` | Get a single redflag. |
+|PATCH| `api/v1/red-flags/<red_flag_id>/location` | Update a single redflag location. |
+|PATCH| `api/v1/red-flags/<red_flag_id>/comment` | Update a single redflag comment. |
+|PATCH| `api/v1/red-flags/<red_flag_id>/status` | Update a single redflag status. |
+|DELETE| `api/v1/red-flags/<red_flag_id>` | Delete a single redflag. |
 
 ## Installation 🕵
 - To run on local machine git clone this project :
