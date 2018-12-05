@@ -6,7 +6,7 @@ from marshmallow import Schema, fields,  validates, ValidationError
 
 def validate_length(input):
     if input.strip()=='':
-        raise ValidationError({'message':'fields cannot be blanck'})
+        raise ValidationError({'message':'fields cannot be blank'})
 
 
 class IncidenceSchema(Schema):
