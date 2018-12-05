@@ -105,7 +105,7 @@ class TestCreateIncidence(BaseTestCase):
             )
         data = json.loads(response.data)
 
-        self.assertEqual(data['message'], {'message': 'fields cannot be blanck'})
+        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
         
     def test_create_incidence_with_empty_type(self):
@@ -114,7 +114,7 @@ class TestCreateIncidence(BaseTestCase):
             )
         data = json.loads(response.data)
 
-        self.assertEqual(data['message'], {'message': 'fields cannot be blanck'})
+        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
     def test_create_incidence_with_empty_location(self):
@@ -123,7 +123,7 @@ class TestCreateIncidence(BaseTestCase):
             )
         data = json.loads(response.data)
 
-        self.assertEqual(data['message'], {'message': 'fields cannot be blanck'})
+        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
     def test_create_incidence_with_empty_comment(self):
@@ -132,6 +132,5 @@ class TestCreateIncidence(BaseTestCase):
             )
         data = json.loads(response.data)
 
-        self.assertEqual(data['message'], {'message': 'fields cannot be blanck'})
+        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
-        
