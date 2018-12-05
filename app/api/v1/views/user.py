@@ -76,7 +76,7 @@ class Login(Resource):
         if not current_user:
             return {'message': 'username does not exist'}, 400
                
-        if not (current_user['password']== data['password']):
+        if not (current_user['password'] == data['password']):
             return {'message': f'invalid username or password'}, 400
 
         access_token = create_access_token(identity=data['username'])

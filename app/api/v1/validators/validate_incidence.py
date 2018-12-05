@@ -22,5 +22,6 @@ class IncidenceSchema(Schema):
     def validate_length(self, comment):
         if comment.strip() == '':
             raise ValidationError('fields cannot be blank')
-        elif not re.match(r"^(?=.*[a-z])[a-zA-Z0-9_.-]{3,25}$", comment):
-            raise ValidationError("{} is not a valid input".format(comment))
+        elif not comment.isalpha():
+            return {'message': "invalid comment"}
+        

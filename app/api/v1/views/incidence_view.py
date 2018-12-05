@@ -30,6 +30,9 @@ class Incidences(Resource):
     @jwt_required
     def get(self):
         '''gets all incidences available in the db'''
+        if len(db) == 0:
+            return {'status':200,
+                     'message': 'no records available'}
         return db, 200
 
     
@@ -93,9 +96,8 @@ class AnIncidence(Resource):
 
         return {
              'status':200,
-             'message': 'record deleted successfully',
-             'data' : output
-             
+             'id' : output[0]['id'],
+             'message': 'record deleted successfully'
               }
 
 update_location = {"location": webargs.fields.Str(required=True)}
@@ -116,6 +118,8 @@ class UpdateLocation(Resource):
             return {'message':'please input data'}, 400
 
         loc = data['location']
+        if not loc.isalpha():
+            return {"message": "please provide a valid location"}, 400
 
         if loc.strip() =='':
             return {'message': 'please provide a valid location'}, 400
@@ -154,12 +158,13 @@ class UpdateComment(Resource):
         comment = data['comment']
         if comment.strip() == '':
             return {'message': 'please provide a valid comment'}, 400
-
+        if not comment.isalpha():
+            return {'message': 'please provide a valid comments'},400
         if not isinstance(comment, str):
             return {'message': 'comment cannot be a number'}, 400
 
         new_instance = Incidence()
-        target = new_instance.location_patcher(red_id, comment)
+        target = new_instance.comment_patcher(red_id, comment)
         if target == 'Not allowed':
             return {"message": "you cant change the comment for this intervention its status is changed"}, 204
 

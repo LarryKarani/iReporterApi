@@ -95,8 +95,8 @@ class TestCreateIncidence(BaseTestCase):
              'api/v1/red-flags/1', headers=self.headers)
 
         data = json.loads(response.data)
-
-        self.assertEqual(data['data'][0]['id'], 1)
+        print(data)
+        self.assertEqual(data['id'], 1)
         self.assertTrue(response.status_code == 200)
 
     def test_create_incidence_with_empty_username(self):

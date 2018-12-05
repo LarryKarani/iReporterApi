@@ -2,10 +2,10 @@
 
 import os
 import psycopg2
-
+   
 class Db:
     def __init__(self):
-        self.con = psycopg2.connect(
+        self.con = psycopg2.connect(       
             dbname = 'Crud',
             user = 'postgres',
             host = 'localhost',
