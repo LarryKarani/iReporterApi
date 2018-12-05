@@ -4,12 +4,14 @@ import datetime
 db = []
 
 class Incidence:
+    counter = 1
     def __init__(self):
         self.db = db
+        self.id = Incidence.counter
 
     def create_incidence(self,createdBy, incidence_type, location, comment):
         data = {}
-        data['id'] = len(db)+1
+        data['id'] = self.id
         data['createdBy'] = createdBy
         data['status'] = 'draft'
         data['type']= incidence_type
@@ -17,6 +19,7 @@ class Incidence:
         data['createdOn']= datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         self.db.append(data)
+        Incidence.counter += 1
 
         return data
 
