@@ -7,24 +7,18 @@ class TestCreateIncidence(BaseTestCase):
     def setUp(self):
         #register a test user
         BaseTestCase.setUp(self)
-
         self.client.post('api/v1/auth/register', data=json.dumps(self.test_user),
         content_type='application/json')
         
         self.login_user = {'username':'larrythegeek',
                            'password':'6398litein'}
-
         login_response = self.client.post('api/v1/auth/login', data=json.dumps(self.login_user),content_type='application/json')
-
         self.access_token = json.loads(login_response.data)['access_token']
-       
-
         self.headers = {
             'Authorization': 'Bearer '+ self.access_token,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-
     def tearDown(self):
         BaseTestCase.tearDown(self)
 
@@ -34,7 +28,6 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data)
         )
         data = json.loads(response.data)
-
         self.assertEqual(data['data'][0]['message'], 'Created incidence record')
         self.assertTrue(response.status_code == 200)
 
@@ -51,39 +44,36 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data)
         )
         response = self.client.get(
-             'api/v1/red-flags/1', headers=self.headers
+             'api/v1/red-flags/3', headers=self.headers
         )
         data = json.loads(response.data)
+       
 
-        self.assertEqual(data['data'][0]['id'], 1)
+        self.assertEqual(data['data'][0]['id'], 3)
         self.assertTrue(response.status_code == 200)
 
     
     def test_update_location(self):
-
         self.client.post(
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data)
         )
         response = self.client.patch(
-             'api/v1/red-flags/1/location', headers=self.headers, data=json.dumps(self.location_data)
+             'api/v1/red-flags/5/location', headers=self.headers, data=json.dumps(self.location_data)
         )
-
+         
         data = json.loads(response.data)
-        
         self.assertEqual(data['message'], 'Updated red-flag record’s location')
         self.assertTrue(response.status_code == 200)
 
     def test_update_comment(self):
-
         self.client.post(
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data)
         )
 
         response = self.client.patch(
-             'api/v1/red-flags/1/comment', headers=self.headers, data=json.dumps(self.comment_data)
+             'api/v1/red-flags/4/comment', headers=self.headers, data=json.dumps(self.comment_data)
         )
         data = json.loads(response.data)
-
         self.assertEqual(data['message'], 'Updated red-flag record’s comment')
         self.assertTrue(response.status_code == 200)
 
@@ -92,11 +82,10 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data)
         )
         response = self.client.delete(
-             'api/v1/red-flags/1', headers=self.headers)
+             'api/v1/red-flags/2', headers=self.headers)
 
         data = json.loads(response.data)
-        print(data)
-        self.assertEqual(data['id'], 1)
+        self.assertEqual(data['id'], 2)
         self.assertTrue(response.status_code == 200)
 
     def test_create_incidence_with_empty_username(self):
@@ -104,7 +93,6 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_created)
             )
         data = json.loads(response.data)
-
         self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
         
@@ -113,7 +101,6 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_type)
             )
         data = json.loads(response.data)
-
         self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
@@ -131,6 +118,5 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_empty_comment)
             )
         data = json.loads(response.data)
-
         self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
         self.assertTrue(response.status_code==400)

@@ -73,7 +73,7 @@ class AnIncidence(Resource):
     def get(self, red_id):
         '''Returns details of a specific incidence'''
         new_instance = Incidence()
-        response=new_instance.get_an_incidence(red_id)
+        response=new_instance.get_an_incidence(red_id)    
         if len(response)==0:
             return {'message': 'incidence does not exist'}, 400
 
@@ -87,9 +87,6 @@ class AnIncidence(Resource):
         '''deletes a specific incidence'''
         new_instance = Incidence()
         output = new_instance.delete(red_id)
-
-        if not type(red_id) == int:
-            return {"message": 'invalid id'}
 
         if len(output)==0:
             return {'message': 'incidence with given id {} does not exist'.format(red_id)}, 400
@@ -118,9 +115,7 @@ class UpdateLocation(Resource):
             return {'message':'please input data'}, 400
 
         loc = data['location']
-        if not loc.isalpha():
-            return {"message": "please provide a valid location"}, 400
-
+        
         if loc.strip() =='':
             return {'message': 'please provide a valid location'}, 400
         if not isinstance(loc, str):
@@ -158,8 +153,7 @@ class UpdateComment(Resource):
         comment = data['comment']
         if comment.strip() == '':
             return {'message': 'please provide a valid comment'}, 400
-        if not comment.isalpha():
-            return {'message': 'please provide a valid comments'},400
+
         if not isinstance(comment, str):
             return {'message': 'comment cannot be a number'}, 400
 
@@ -179,7 +173,6 @@ class UpdateComment(Resource):
                  "message" : "Updated red-flag record’s comment"
              }
 
-
 update_status = {"status": webargs.fields.Str(required=True)}
 update_status_args_model = v1_incidence.model(
         "update_status_args", {"status": fields.String(required=True)})
@@ -191,17 +184,16 @@ class UpdateStatus(Resource):
     def patch(self, red_id):
         '''allow admin to change the status of an incidence'''
         data = v1_incidence.payload
-
         if not data:
             return {'message':'please input data'}, 400
-
         status = data['status']
+
         if status.strip() == '':
             return {'message': 'please provide a valid status'}, 400
 
         if not isinstance(status, str):
             return {'message': 'comment cannot be a number'}, 400
-
+            
         statuses = ['draft', 'under-review', 'accepted', 'rejected']
         if status not in statuses:
             return {'message', 'invalid status'}, 400
