@@ -11,3 +11,6 @@ app/__init__.pyc
 app/api/__init__.pyc
 app/api/v1/__init__.pyc
 instance/__init__.pyc
+.cache/
+app/tests/__init__.pyc
+app/tests/v1/__init__.pyc
