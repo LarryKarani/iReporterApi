@@ -18,10 +18,29 @@ class BaseTestCase(unittest.TestCase):
             "othername":"karani",
             "email":"ka@gmail.com",
             "password":"werfg",
-            "phoneNumber":"07020103",
+            "phoneNumber":"0702010376",
             "username":"thegeek"
         }
 
+        self.invalid_phone = {
+            "firstname":"larry",
+            "lastname":"kubende",
+            "othername":"karani",
+            "email":"ka@gmail.com",
+            "password":"werfg",
+            "phoneNumber":"070201",
+            "username":"thegeek"
+        }
+        
+        self.invalid_firstname = {
+            "firstname":" ",
+            "lastname":"kubende",
+            "othername":"karani",
+            "email":"ka@gmail.com",
+            "password":"werfg",
+            "phoneNumber":"0702010376",
+            "username":"thegeek"
+        }
     def tearDown(self):
         self.db_obj.drop_all_tables()
         self.client = None

@@ -1,6 +1,9 @@
 from flask import Flask,  jsonify
 from app.api.v1 import v1_blueprint
+from app.api.v2 import v2_blueprint
 from app.api.v1 import v1_api
+from app.api.v2 import v2_api
+
 from flask_jwt_extended import JWTManager
 
 
@@ -13,8 +16,9 @@ def create_app(config_name):
     jwt = JWTManager(app)
     app.config['JWT_SECRET_KEY'] = '%****#@#'
     app.config.from_object(config[config_name])
+    app.register_blueprint(v2_blueprint, url_prefix="/api/v2")
     app.register_blueprint(v1_blueprint, url_prefix="/api/v1")
-    api = v1_api
+    api = v2_api
 
     jwt._set_error_handler_callbacks(api)
     # this function hundles 404 errors
