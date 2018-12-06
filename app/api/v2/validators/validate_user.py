@@ -1,5 +1,4 @@
 '''This module handles the validation of all data relating to the user'''
-
 import re
 from marshmallow import Schema, fields,  validates, ValidationError
 
@@ -20,6 +19,8 @@ class UserSchema(Schema):
     def validate_phonenumber(self, phoneNumber):
         if len(phoneNumber)<10:
             raise ValidationError('phone number should be 10 characters  long')
+        elif not re.match('^[0-9]+$', phoneNumber):
+            raise ValidationError('phone number should only contain digits')
 
 class LoginSchema(Schema):
     '''schema for validating login data'''

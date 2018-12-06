@@ -1,6 +1,8 @@
 import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import create_access_token
+from werkzeug.security import check_password_hash
+
 
 #local import
 from app.api.v2.models.users import User
@@ -58,3 +60,31 @@ class Register(Resource):
         return {'message': 'user successfuly  added',
                  'data': data
                 }, 201
+
+class Login(Resource, User):
+    @v2_user.expect(user_login )
+    def post(self):
+        'logs in a user'
+        data = v2_user.payload
+        schema = LoginSchema()
+        schema_data = schema.load(data)
+        errors = schema_data.errors
+        error_types = ['username', 'password']
+
+        for e in error_types:
+            if e in errors.keys():
+                return {'message': errors[e][0]}, 400
+
+        current_user= self.check_username(data['username'])
+        
+        if not current_user:
+            return {'message': 'username does not exist'}, 400
+               
+        if not check_password_hash(current_user[9], data['password'].strip()):
+            return {'message': f'invalid username or password'}, 400
+
+        access_token = create_access_token(identity=data['username'])
+
+        return {'message': 'logged in as {}'.format(data['username']),
+                'access_token': access_token}, 200
+        

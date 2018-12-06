@@ -41,6 +41,36 @@ class BaseTestCase(unittest.TestCase):
             "phoneNumber":"0702010376",
             "username":"thegeek"
         }
+
+        self.login_data = {
+             "password":"werfg",
+             "username":"thegeek"
+
+        }
+
+        self.wrong_data = {
+            "password":"wjames",
+             "username":"thegeek"
+
+        }
+
+        self.wrong_password = {
+             "password":"wetrr",
+             "username":"thegeek"
+
+        }
+
+        self.empty_username = {
+             "password":"werfg",
+             "username":" "
+
+        }
+
+        self.empty_password = {
+            "password":" ",
+             "username":"thegeek"
+        }
+
     def tearDown(self):
         self.db_obj.drop_all_tables()
         self.client = None
