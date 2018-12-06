@@ -9,7 +9,6 @@ class DevelopmentConfig(Config):
     """Configurations for the development environment"""
     DEBUG = True
 
-
 class TestingConfig(Config):
     """configuration for the testing environment"""
     DEBUG = True
@@ -17,7 +16,6 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     """configuration for the production environment"""
     DEBUG = False
-
 
 config = {
        'development': DevelopmentConfig,

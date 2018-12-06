@@ -17,14 +17,12 @@ class Users():
         data['phoneNumber'] = phoneNumber
         data['username'] =  username
         data['registered'] = self.registered
-
         self.db.append(data)
 
     def get_user(self, id):
         output = [user for user in self.db if user['id']== id]
         if len(output) == 0:
             return False
-        
         return output[0]
 
     def get_all_users(self):

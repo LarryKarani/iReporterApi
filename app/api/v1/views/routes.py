@@ -1,14 +1,9 @@
 """This module registers all the urls for the routes"""
-
-
 from .incidence_view import (v1_incidence, Incidences, AnIncidence, UpdateLocation,
                             UpdateComment, UpdateStatus)
-
 from .user import v1_user, Register, Login
 
-
 #incidents url -prefix(api/v1/red-flags)
-
 v1_incidence.add_resource(Incidences, '/' , strict_slashes=False)
 v1_incidence.add_resource(AnIncidence, '/<int:red_id>', strict_slashes=False)
 v1_incidence.add_resource(UpdateLocation, '/<int:red_id>/location', strict_slashes=False)
