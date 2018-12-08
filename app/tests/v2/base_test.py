@@ -71,6 +71,13 @@ class BaseTestCase(unittest.TestCase):
              "username":"thegeek"
         }
 
+        self.incident_data = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+         }      
+
     def tearDown(self):
         self.db_obj.drop_all_tables()
         self.client = None

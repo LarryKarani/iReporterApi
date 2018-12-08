@@ -20,9 +20,8 @@ class TestRegesterUser(BaseTestCase):
             self.sign_up_data), content_type='application/json')
         response = self.client.post('api/v1/auth/login', data=json.dumps(
             self.wrong_password), content_type='application/json')
-        print(json.loads(response.data)['message'])
+        
         self.assertEqual("invalid username or password", json.loads(response.data)['message'])
-        print(response.data)
         self.assertTrue(response.status_code == 400)
 
     def test_empty_username(self):
