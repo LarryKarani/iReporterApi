@@ -11,7 +11,7 @@ class BaseTestCase(unittest.TestCase):
         self.db_obj.create_tables()
 
         self.client = self.app.test_client()
-
+        #users
         self.sign_up_data = {
             "firstname":"larry",
             "lastname":"kubende",
@@ -70,13 +70,64 @@ class BaseTestCase(unittest.TestCase):
             "password":" ",
              "username":"thegeek"
         }
-
+        
+        #incident_data
         self.incident_data = {
              "createdBy": "Larry karani",
              "incidence_type" : "red-flag",
              "location": "123456,23434",
              "comment":"String"
          }      
+        
+        self.redflag_data = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+         }      
+        self.redflag_data_with_empty_created={
+             "createdBy": " ",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+        }
+        self.redflag_data_with_empty_type ={
+             "createdBy": "Larry karani",
+             "incidence_type" : " ",
+             "location": "123456,23434",
+             "comment":"String"
+        }
+
+        self.redflag_data_empty_location = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": " ",
+             "comment":"String"
+         }
+        self.redflag_data_empty_comment = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123,3445",
+             "comment":" "
+         }
+        self.redflag_data_invalid_location = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "long, lat",
+             "comment":"String"
+         }
+        self.location_data = {
+             "location": "3333,5555"
+         }
+        self.comment_data= {
+             "comment": "hey you"
+         }
+
+        self.update_redflag_status = {
+             "status": "3333,5555"
+         }
+
+
 
     def tearDown(self):
         self.db_obj.drop_all_tables()

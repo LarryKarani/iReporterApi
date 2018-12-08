@@ -8,8 +8,8 @@ from werkzeug.security import check_password_hash
 from app.api.v2.models.users import User
 from app.api.v2.validators.validate_user import UserSchema, LoginSchema
 
-v2_user = Namespace('auth')
 
+v2_user = Namespace('auth')
 registration_args_model=v2_user.model(
     'Regestration', {
     "firstname": fields.String(description='username'),
