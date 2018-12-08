@@ -8,7 +8,6 @@ def validate_length(input):
 
 class IncidenceSchema(Schema):
     '''Validates incidence data'''
-    createdBy =    fields.String(required=True, validate=validate_length)
     location  = fields.String(required=True, validate=validate_length)
     comment   = fields.String(required=True,  validate=validate_length)
     incidence_type =fields.String(required=True, validate=validate_length)

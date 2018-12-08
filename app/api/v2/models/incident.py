@@ -59,7 +59,7 @@ class Incidents():
 
     def get_all_incidents(self):
         sql = f"SELECT * FROM incidences"
-        curr = self.db_obj.cur
+        curr = Db().cur
         curr.execute(sql)
         output = curr.fetchall()
         return output

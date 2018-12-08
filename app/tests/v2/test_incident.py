@@ -31,17 +31,10 @@ class TestCreateIncidence(BaseTestCase):
         self.assertEqual(data['data'][0]['message'], 'Created incidence record')
         self.assertTrue(response.status_code == 200)
 
-    def test_create_incidence_with_empty_username(self):
-        response = self.client.post(
-            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_created)
-            )
-        data = json.loads(response.data)
-        self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
-        self.assertTrue(response.status_code==400)
 
     def test_create_incidence_with_empty_type(self):
         response = self.client.post(
-            'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_type)
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_type)
             )
         data = json.loads(response.data)
         self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
@@ -49,12 +42,17 @@ class TestCreateIncidence(BaseTestCase):
 
     def test_create_incidence_with_empty_location(self):
         response = self.client.post(
-            'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_empty_location)
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data_empty_location)
             )
         data = json.loads(response.data)
-
         self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
     
+    def test_get_all_incedence(self):
+        '''Test that a user can get all the incidences'''
+        response = self.client.get(
+             'api/v2/interventions/', headers=self.headers
+        )
+        self.assertTrue(response.status_code == 200)
 
-   
+    

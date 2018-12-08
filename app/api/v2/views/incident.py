@@ -17,14 +17,13 @@ authorizations = {
 v2_incident= Namespace('interventions', authorizations=authorizations, security='apikey')
 
 incident_data = v2_incident.model('Interventions',{
-                       'createdBy' :fields.String(description='name of the user creating the red-flag'), 
                        'incidence_type' :fields.String(description='name of the user creating the red-flag'),       
                        'location' :fields.String(description='name of the user creating the red-flag'),
                        'comment': fields.String(description='name of the user creating the red-flag')
 })
 
 
-class Incidences(Resource):
+class Incidences(Resource, Incidents):
     @v2_incident.expect(incident_data)
     @v2_incident.doc(security='apikey')
     @jwt_required
@@ -57,5 +56,25 @@ class Incidences(Resource):
                            'message' :  'Created incidence record'
                            }]
                }
+    @v2_incident.doc(security='apikey')
+    @jwt_required
+    def get(self):
+
+        '''gets all incidences available in the db'''
+        incidents = self.get_all_incidents()
+        if len(incidents) == 0:
+            return {'status':200,
+                     'message': 'No records available'}
+        
+        #convert the tuble to a list of dicts
+        keys = ['id', 'createdon', 'createdby', 'type','location', 'status', 'comment']
+        output = []
+        for values in incidents:
+            output.append(dict(zip(keys, values)))
+
+        return {
+                "status": 200,
+                "data":output
+                }
 
     
