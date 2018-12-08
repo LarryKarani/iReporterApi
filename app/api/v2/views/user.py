@@ -50,14 +50,14 @@ class Register(Resource):
        #check if user already exists
         user = new_user.check_username(data['username'])
         if user:
-            return {'message': 'username already exists'}, 400
+            return {'message': 'Username already exists'}, 400
 
         mail = new_user.check_email(data['email'])
         if mail:
-            return {'message': 'email already exists'}, 400
+            return {'message': 'Email already exists'}, 400
 
         new_user.register_user()
-        return {'message': 'user successfuly  added',
+        return {'message': 'User successfuly  added',
                  'data': data
                 }, 201
 
@@ -78,13 +78,13 @@ class Login(Resource, User):
         current_user= self.check_username(data['username'])
         
         if not current_user:
-            return {'message': 'username does not exist'}, 400
+            return {'message': 'Username does not exist'}, 400
                
         if not check_password_hash(current_user[9], data['password'].strip()):
-            return {'message': f'invalid username or password'}, 400
+            return {'message': f'Invalid username or password'}, 400
 
         access_token = create_access_token(identity=data['username'])
 
-        return {'message': 'logged in as {}'.format(data['username']),
+        return {'message': 'Logged in as {}'.format(data['username']),
                 'access_token': access_token}, 200
         
