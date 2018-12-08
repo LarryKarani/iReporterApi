@@ -5,7 +5,7 @@ from marshmallow import Schema, fields,  validates, ValidationError
 
 def validate_length(input):
     if input.strip()=='':
-        raise ValidationError({'message':'fields cannot be blank'})
+        raise ValidationError({'message':'Fields cannot be blank'})
         
 class UserSchema(Schema):
     '''schema for validating signup data'''
@@ -19,7 +19,7 @@ class UserSchema(Schema):
     @validates('phoneNumber')
     def validate_phonenumber(self, phoneNumber):
         if len(phoneNumber)<10:
-            raise ValidationError('phone number should be 10 characters  long')
+            raise ValidationError('Phone number should be 10 characters  long')
 
 class LoginSchema(Schema):
     '''schema for validating login data'''

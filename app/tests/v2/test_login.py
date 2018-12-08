@@ -30,7 +30,7 @@ class TestRegesterUser(BaseTestCase):
             self.sign_up_data), content_type='application/json')
         response = self.client.post('api/v1/auth/login', data=json.dumps(
             self.empty_username), content_type='application/json')
-        self.assertEqual("fields cannot be blank", json.loads(response.data)['message']['message'])
+        self.assertEqual("Fields cannot be blank", json.loads(response.data)['message']['message'])
         self.assertTrue(response.status_code == 400)
         
     def test_empty_password(self):
@@ -38,5 +38,5 @@ class TestRegesterUser(BaseTestCase):
             self.sign_up_data), content_type='application/json')
         response = self.client.post('api/v1/auth/login', data=json.dumps(
             self.empty_password), content_type='application/json')
-        self.assertEqual("fields cannot be blank", json.loads(response.data)['message']['message'])
+        self.assertEqual("Fields cannot be blank", json.loads(response.data)['message']['message'])
         self.assertTrue(response.status_code == 400)
