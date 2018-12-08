@@ -65,7 +65,7 @@ class BaseTestCase(unittest.TestCase):
              "location": "3333,5555"
          }
         self.comment_data= {
-             "comment": "3333,5555"
+             "comment": "hey you"
          }
 
         self.update_redflag_status = {

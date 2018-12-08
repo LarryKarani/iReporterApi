@@ -4,7 +4,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 
 #local import 
 from app.api.v1.models.incidence_model import Incidence, db
-from app.api.v1.validators.validate_incidence import IncidenceSchema
+from app.api.v1.validators.validate_incidence import IncidenceSchema,UpdateCommentSchema,UpdateLocationSchema
 
 authorizations = {
     'apikey': {
@@ -118,8 +118,15 @@ class UpdateLocation(Resource):
         
         if loc.strip() =='':
             return {'message': 'Please provide a valid location'}, 400
-        if not isinstance(loc, str):
-            return {'message': 'location cannot be a number'}, 400
+        schema = UpdateLocationSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['location']
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+
+        
         new_instance = Incidence()
         target = new_instance.location_patcher(red_id, data['location'])
         if target == 'Not allowed':
@@ -156,6 +163,15 @@ class UpdateComment(Resource):
 
         if not isinstance(comment, str):
             return {'message': 'Comment cannot be a number'}, 400
+
+        schema = UpdateCommentSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['comment']
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+
 
         new_instance = Incidence()
         target = new_instance.comment_patcher(red_id, comment)
