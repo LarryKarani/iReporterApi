@@ -24,7 +24,7 @@ def create_app(config_name):
     # this function hundles 404 errors
     @app.errorhandler(404)
     def page_not_found(e):
-        return jsonify({"error": "page not found"}), 404
+        return jsonify({"error": "oops! page not found"}), 404
 
     return app
     
