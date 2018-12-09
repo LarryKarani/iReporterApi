@@ -26,7 +26,8 @@ class Db:
                 phoneNumber VARCHAR(255) NOT NULL,
                 username VARCHAR(255) NOT NULL,
                 registered VARCHAR(255) NOT NULL,
-                isAdmin BOOLEAN NOT NULL
+                isAdmin BOOLEAN NOT NULL,
+                password VARCHAR(255) NOT NULL
             )""",
             # creates ride_offer table
             """CREATE TABLE IF NOT EXISTS incidences(
@@ -53,4 +54,3 @@ class Db:
         for q in queries:
             self.cur.execute(q)
             self.con.commit()
-
