@@ -52,3 +52,17 @@ class UpdateLocationSchema(Schema):
             raise ValidationError('Fields cannot be blank')
         elif not r.match(location):
             raise ValidationError("{} is not a valid location".format(location))
+
+class UpdateStatusSchema(Schema):
+    '''validates update incident data'''
+    status = fields.String(required=True, validate=validate_length)
+    @validates('status')
+    def validate_location(self, status):
+        status_option = ['resolved', 'under investigation', 'draft']
+        r = re.compile("^[a-zA-Z ]*$")
+        if status.strip() == '':
+            raise ValidationError('Fields cannot be blank')
+        elif not r.match(status):
+            raise ValidationError("{} is not a valid status".format(status))
+        elif status.lower() not in status_option:
+            raise ValidationError("{} status can only be 'under investigation', 'draft' or resolved".format(status))
