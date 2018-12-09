@@ -3,7 +3,7 @@ from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
 #local import 
 from app.api.v2.models.incident import Incidents
-from app.api.v2.validators.validate_incident import IncidenceSchema
+from app.api.v2.validators.validate_incident import IncidenceSchema, UpdateLocationSchema
 
 authorizations = {
     'apikey': {
@@ -104,3 +104,50 @@ class AnIncident(Resource, Incidents):
              'id' : incident[0],
              'message': 'record deleted successfully'
               }
+
+update_location = {"location": webargs.fields.Str(required=True)}
+#documentation
+update_location_args_model = v2_incident.model(
+        "update_location_args", {"location": fields.String(required=True)})
+
+@v2_incident.header("Authorization", "Access tokken", required=True)
+class UpdateLocation(Resource, Incidents):
+    @v2_incident.doc(body=update_location_args_model, security='apikey')
+    @jwt_required
+    def patch(self, incident_id):
+        '''changes location of an incidence'''
+
+        data = v2_incident.payload
+        if not data:
+            return {'message':'Please input data'}, 400
+
+        loc = data['location']
+        
+        if loc.strip() =='':
+            return {'message': 'Please provide a valid location'}, 400
+        schema = UpdateLocationSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['location']
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+        
+        target = self.get_an_incident(incident_id)
+        if target[5] != 'Draft':
+            return {"message": "You cant change location for this intervention its status is changed"}, 204
+
+        if not target:
+            return {'message': 'Incident does not exist'}, 404
+
+        else:
+            self.update_location(incident_id, data['location'])
+            target = self.get_an_incident(incident_id)
+            keys = ['id', 'createdon', 'createdby', 'type','location', 'status', 'comment']
+            output = dict(zip(keys, target))
+            return {
+                 'status':200, 
+                 "data" : [output],
+                 "id" : target[0],
+                 "message" : "Updated red-flag record’s location"
+             }

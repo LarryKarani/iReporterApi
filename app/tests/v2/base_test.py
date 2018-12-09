@@ -70,7 +70,7 @@ class BaseTestCase(unittest.TestCase):
             "password":" ",
              "username":"thegeek"
         }
-        
+
         #incident_data
         self.incident_data = {
              "createdBy": "Larry karani",
@@ -127,7 +127,9 @@ class BaseTestCase(unittest.TestCase):
              "status": "3333,5555"
          }
 
-
+        self.invalid_location = {
+            "location":"@#$%^&,@#$%^&"
+        }
 
     def tearDown(self):
         self.db_obj.drop_all_tables()

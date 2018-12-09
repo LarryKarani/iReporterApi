@@ -87,3 +87,27 @@ class TestCreateIncidence(BaseTestCase):
     
         self.assertEqual(data['message'], 'Incident with given id 1 does not exist')
         self.assertTrue(response.status_code == 400)
+    
+    def test_update_location(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+        response = self.client.patch(
+             'api/v2/interventions/1/location', headers=self.headers, data=json.dumps(self.location_data)
+        )
+         
+        data = json.loads(response.data)
+        self.assertEqual(data['message'], 'Updated red-flag record’s location')
+        self.assertTrue(response.status_code == 200)
+
+    def test_update_location_with_invalid_input(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+        response = self.client.patch(
+             'api/v2/interventions/1/location', headers=self.headers, data=json.dumps(self.invalid_location)
+        )
+        data= json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data['message'],"@#$%^&,@#$%^& is not a valid location")
+    

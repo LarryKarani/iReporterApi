@@ -75,7 +75,7 @@ class Incidents():
     def update_location(self, id, location):
         sql=f"UPDATE  incidences SET location = \'{location}\'\
                                     WHERE incidences.id = {id}"
-        conn = self.db_obj.con
+        conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
