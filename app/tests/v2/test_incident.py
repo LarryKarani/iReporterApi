@@ -22,7 +22,7 @@ class TestCreateIncidence(BaseTestCase):
     def tearDown(self):
         BaseTestCase.tearDown(self)
 
-    def test_create_incidence(self):
+    def test_create_incident(self):
         '''Test that a user can create an incidence of type red-flag or intervention'''
         response = self.client.post(
             'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
@@ -32,7 +32,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 200)
 
 
-    def test_create_incidence_with_empty_type(self):
+    def test_create_incident_with_empty_type(self):
         response = self.client.post(
             'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_type)
             )
@@ -40,7 +40,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
-    def test_create_incidence_with_empty_location(self):
+    def test_create_incident_with_empty_location(self):
         response = self.client.post(
             'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data_empty_location)
             )
@@ -48,14 +48,14 @@ class TestCreateIncidence(BaseTestCase):
         self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
     
-    def test_get_all_incedence(self):
+    def test_get_all_incedent(self):
         '''Test that a user can get all the incidences'''
         response = self.client.get(
              'api/v2/interventions/', headers=self.headers
         )
         self.assertTrue(response.status_code == 200)
 
-    def test_get_an_incidence(self):
+    def test_get_an_incident(self):
         '''Test user can get a specific incidence given its id'''
         self.client.post(
             'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
@@ -66,3 +66,24 @@ class TestCreateIncidence(BaseTestCase):
         print(data)
         self.assertEqual(data['data'][0]['id'], 1)
         self.assertTrue(response.status_code == 200)
+
+    def test_delete_incident(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+        response = self.client.delete(
+             'api/v2/interventions/1', headers=self.headers)
+
+        data = json.loads(response.data)
+        self.assertEqual(data['id'], 1)
+        self.assertTrue(response.status_code == 200)
+
+    def test_delete_incident_does_not_exist(self):
+        
+        response = self.client.delete(
+             'api/v2/interventions/1', headers=self.headers)
+
+        data = json.loads(response.data)
+    
+        self.assertEqual(data['message'], 'Incident with given id 1 does not exist')
+        self.assertTrue(response.status_code == 400)

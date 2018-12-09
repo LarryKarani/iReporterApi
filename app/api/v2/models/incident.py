@@ -89,7 +89,7 @@ class Incidents():
 
     def delete_incident(self,id):
         sql = f"DELETE FROM incidences WHERE incidences.id ={id}"
-        conn = self.db_obj.con
+        conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()

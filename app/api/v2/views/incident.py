@@ -91,3 +91,16 @@ class AnIncident(Resource, Incidents):
                  'status': 200,
                   'data': [output]
               }
+    @v2_incident.doc(security='apikey')
+    @jwt_required
+    def delete(self, incident_id):
+        '''deletes a specific incident'''
+        incident= self.get_an_incident(incident_id)
+        if not incident:
+            return {'message': 'Incident with given id {} does not exist'.format(incident_id)}, 400
+        self.delete_incident(incident_id)
+        return {
+             'status':200,
+             'id' : incident[0],
+             'message': 'record deleted successfully'
+              }
