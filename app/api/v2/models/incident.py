@@ -52,7 +52,7 @@ class Incidents():
     
     def get_an_incident(self, id):
         sql = f"SELECT * FROM incidences WHERE incidences.id={id}"
-        curr = self.db_obj.cur
+        curr = Db().cur
         curr.execute(sql)
         output = curr.fetchone()
         return output

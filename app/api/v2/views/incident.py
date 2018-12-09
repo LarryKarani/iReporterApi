@@ -1,7 +1,6 @@
 import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
-
 #local import 
 from app.api.v2.models.incident import Incidents
 from app.api.v2.validators.validate_incident import IncidenceSchema
@@ -13,7 +12,6 @@ authorizations = {
         'name': 'authorization'
     }
 }
-
 v2_incident= Namespace('interventions', authorizations=authorizations, security='apikey')
 
 incident_data = v2_incident.model('Interventions',{
@@ -21,8 +19,6 @@ incident_data = v2_incident.model('Interventions',{
                        'location' :fields.String(description='name of the user creating the red-flag'),
                        'comment': fields.String(description='name of the user creating the red-flag')
 })
-
-
 class Incidences(Resource, Incidents):
     @v2_incident.expect(incident_data)
     @v2_incident.doc(security='apikey')
@@ -77,4 +73,21 @@ class Incidences(Resource, Incidents):
                 "data":output
                 }
 
-    
+@v2_incident.header("Authorization", "Access tokken", required=True)
+class AnIncident(Resource, Incidents):
+    '''get a single incident'''
+    @v2_incident.doc(security='apikey')
+    @jwt_required
+    def get(self, incident_id):
+        '''Returns details of a specific incidence'''
+
+        keys = ['id', 'createdon', 'createdby', 'type','location', 'status', 'comment']
+        incident= self.get_an_incident(incident_id)
+        if not incident:
+            return {'message': 'Incident does not exist'}, 400
+
+        output = dict(zip(keys, incident))
+        return {
+                 'status': 200,
+                  'data': [output]
+              }

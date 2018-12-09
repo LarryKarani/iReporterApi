@@ -55,4 +55,14 @@ class TestCreateIncidence(BaseTestCase):
         )
         self.assertTrue(response.status_code == 200)
 
-    
+    def test_get_an_incidence(self):
+        '''Test user can get a specific incidence given its id'''
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+        response = self.client.get(
+             'api/v2/interventions/1', headers=self.headers)
+        data = json.loads(response.data)
+        print(data)
+        self.assertEqual(data['data'][0]['id'], 1)
+        self.assertTrue(response.status_code == 200)
