@@ -67,7 +67,7 @@ class Incidents():
     def update_comment(self, id, comment):
         sql=f"UPDATE  incidences SET comment = \'{comment}\'\
                                     WHERE incidences.id = {id}"
-        conn = self.db_obj.con
+        conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()

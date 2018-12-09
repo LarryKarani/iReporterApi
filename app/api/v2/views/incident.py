@@ -3,7 +3,7 @@ from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
 #local import 
 from app.api.v2.models.incident import Incidents
-from app.api.v2.validators.validate_incident import IncidenceSchema, UpdateLocationSchema
+from app.api.v2.validators.validate_incident import IncidenceSchema, UpdateLocationSchema, UpdateCommentSchema
 
 authorizations = {
     'apikey': {
@@ -150,4 +150,55 @@ class UpdateLocation(Resource, Incidents):
                  "data" : [output],
                  "id" : target[0],
                  "message" : "Updated red-flag record’s location"
+             }
+
+
+update_comment = {"comment": webargs.fields.Str(required=True)}
+update_comment_args_model = v2_incident.model(
+        "update_comment_args", {"comment": fields.String(required=True)})
+
+@v2_incident.header("Authorization", "Access tokken", required=True)
+class UpdateComment(Resource, Incidents):
+    @v2_incident.doc(body=update_comment_args_model, security='apikey')
+    @jwt_required
+    def patch(self, incident_id):
+        '''allows a user to change the comment of an incident'''
+        data = v2_incident.payload
+        if not data:
+            return {'message':'Please input data'}, 400
+
+        comment = data['comment']
+        if comment.strip() == '':
+            return {'message': 'please provide a valid comment'}, 400
+
+        if not isinstance(comment, str):
+            return {'message': 'Comment cannot be a number'}, 400
+
+        schema = UpdateCommentSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['comment']
+
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+
+        target = self.get_an_incident(incident_id)
+        if not target:
+            return {'message': 'Incident does not exist'}
+
+        status = target[5]
+        if status != 'Draft':
+            return {"message": "You cant change the comment for this intervention its status is {}".format(status)}, 204
+
+        self.update_comment(incident_id, comment)
+        target = self.get_an_incident(incident_id)
+        keys = ['id', 'createdon', 'createdby', 'type','location', 'status', 'comment']
+        output = dict(zip(keys, target))
+        
+        return {
+                 'status':200, 
+                 "data" : [output],
+                 "id" : target[0],
+                 "message" : "Updated red-flag record’s comment"
              }

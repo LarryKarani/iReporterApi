@@ -111,3 +111,26 @@ class TestCreateIncidence(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['message'],"@#$%^&,@#$%^& is not a valid location")
     
+    def test_update_comment(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+
+        response = self.client.patch(
+             'api/v2/interventions/1/comment', headers=self.headers, data=json.dumps(self.comment_data)
+        )
+        data = json.loads(response.data)
+        self.assertEqual(data['message'], 'Updated red-flag record’s comment')
+        self.assertTrue(response.status_code == 200)
+
+    def test_update_comment_invalid_commet(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+
+        response = self.client.patch(
+             'api/v2/interventions/1/comment', headers=self.headers, data=json.dumps(self.invalid_comment)
+        )
+        data = json.loads(response.data)
+        self.assertEqual(data['message'], '@#$%^&,@#$%^& is not a valid comment')
+        self.assertTrue(response.status_code == 400)

@@ -130,6 +130,9 @@ class BaseTestCase(unittest.TestCase):
         self.invalid_location = {
             "location":"@#$%^&,@#$%^&"
         }
+        self.invalid_comment = {
+            "comment":"@#$%^&,@#$%^&"
+        }
 
     def tearDown(self):
         self.db_obj.drop_all_tables()
