@@ -29,7 +29,7 @@ class Incidences(Resource, Incidents):
         schema = IncidenceSchema()
         results=schema.load(data)
 
-        #get error if any
+        #get errors if any
         errors = results.errors
         incidence_fields = ['createdBy', 'location', 'incidence_type', 'comment']
         for error in incidence_fields:
