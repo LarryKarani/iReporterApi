@@ -93,7 +93,7 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_created)
             )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
+        self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
         
     def test_create_incidence_with_empty_type(self):
@@ -101,7 +101,7 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_with_empty_type)
             )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
+        self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
     def test_create_incidence_with_empty_location(self):
@@ -110,7 +110,7 @@ class TestCreateIncidence(BaseTestCase):
             )
         data = json.loads(response.data)
 
-        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
+        self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)
 
     def test_create_incidence_with_empty_comment(self):
@@ -118,5 +118,5 @@ class TestCreateIncidence(BaseTestCase):
             'api/v1/red-flags/', headers=self.headers, data=json.dumps(self.redflag_data_empty_comment)
             )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], {'message': 'fields cannot be blank'})
+        self.assertEqual(data['message'], {'message': 'Fields cannot be blank'})
         self.assertTrue(response.status_code==400)

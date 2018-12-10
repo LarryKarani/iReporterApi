@@ -28,7 +28,7 @@ class User():
     def check_username(self, username):
         """checks if username already exists"""
         sql = "SELECT * FROM users WHERE users.username=\'%s\' "%(username)
-        curr = self.db_obj.cur
+        curr = Db().cur
         curr.execute(sql)
         output =curr.fetchone()
         return output

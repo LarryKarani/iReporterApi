@@ -4,7 +4,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 
 #local import 
 from app.api.v1.models.incidence_model import Incidence, db
-from app.api.v1.validators.validate_incidence import IncidenceSchema
+from app.api.v1.validators.validate_incidence import IncidenceSchema,UpdateCommentSchema,UpdateLocationSchema
 
 authorizations = {
     'apikey': {
@@ -75,7 +75,7 @@ class AnIncidence(Resource):
         new_instance = Incidence()
         response=new_instance.get_an_incidence(red_id)    
         if len(response)==0:
-            return {'message': 'incidence does not exist'}, 400
+            return {'message': 'Incident does not exist'}, 400
 
         return {
                   'status': 200, 
@@ -84,12 +84,12 @@ class AnIncidence(Resource):
     @v1_incidence.doc(security='apikey')
     @jwt_required
     def delete(self, red_id):
-        '''deletes a specific incidence'''
+        '''deletes a specific incident'''
         new_instance = Incidence()
         output = new_instance.delete(red_id)
 
         if len(output)==0:
-            return {'message': 'incidence with given id {} does not exist'.format(red_id)}, 400
+            return {'message': 'Incident with given id {} does not exist'.format(red_id)}, 400
 
         return {
              'status':200,
@@ -112,21 +112,28 @@ class UpdateLocation(Resource):
 
         data = v1_incidence.payload
         if not data:
-            return {'message':'please input data'}, 400
+            return {'message':'Please input data'}, 400
 
         loc = data['location']
         
         if loc.strip() =='':
-            return {'message': 'please provide a valid location'}, 400
-        if not isinstance(loc, str):
-            return {'message': 'location cannot be a number'}, 400
+            return {'message': 'Please provide a valid location'}, 400
+        schema = UpdateLocationSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['location']
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+
+        
         new_instance = Incidence()
         target = new_instance.location_patcher(red_id, data['location'])
         if target == 'Not allowed':
-            return {"message": "you cant change location for this intervention its status is changed"}, 204
+            return {"message": "You cant change location for this intervention its status is changed"}, 204
 
         if not target:
-            return {'message': 'incidence does not exist'}, 404
+            return {'message': 'Incident does not exist'}, 404
 
         else:
             return {
@@ -148,22 +155,31 @@ class UpdateComment(Resource):
         '''allows a user to change the location of an incidence'''
         data = v1_incidence.payload
         if not data:
-            return {'message':'please input data'}, 400
+            return {'message':'Please input data'}, 400
 
         comment = data['comment']
         if comment.strip() == '':
             return {'message': 'please provide a valid comment'}, 400
 
         if not isinstance(comment, str):
-            return {'message': 'comment cannot be a number'}, 400
+            return {'message': 'Comment cannot be a number'}, 400
+
+        schema = UpdateCommentSchema()
+        results=schema.load(data)
+        errors = results.errors
+        update_location_field = ['comment']
+        for error in update_location_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+
 
         new_instance = Incidence()
         target = new_instance.comment_patcher(red_id, comment)
         if target == 'Not allowed':
-            return {"message": "you cant change the comment for this intervention its status is changed"}, 204
+            return {"message": "You cant change the comment for this intervention its status is changed"}, 204
 
         if not target:
-            return {'message': 'incidence does not exist'}
+            return {'message': 'Incident does not exist'}
 
         else:
             return {
@@ -185,27 +201,27 @@ class UpdateStatus(Resource):
         '''allow admin to change the status of an incidence'''
         data = v1_incidence.payload
         if not data:
-            return {'message':'please input data'}, 400
+            return {'message':'Please input data'}, 400
         status = data['status']
 
         if status.strip() == '':
-            return {'message': 'please provide a valid status'}, 400
+            return {'message': 'Please provide a valid status'}, 400
 
         if not isinstance(status, str):
-            return {'message': 'comment cannot be a number'}, 400
+            return {'message': 'Comment cannot be a number'}, 400
             
         statuses = ['draft', 'under-review', 'accepted', 'rejected']
         if status not in statuses:
-            return {'message', 'invalid status'}, 400
+            return {'message', 'Invalid status'}, 400
 
         new_instance = Incidence()
         target = new_instance.change_status(red_id, status)
 
         if target == 'Not allowed':
-            return {"message": "you cant change the comment for this intervention its status is changed"}, 204
+            return {"message": "You cant change the comment for this intervention its status is changed"}, 204
 
         if not target:
-            return {'message': 'incidence does not exist'},404
+            return {'message': 'Incident does not exist'},404
 
         else:
             return {

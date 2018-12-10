@@ -11,15 +11,127 @@ class BaseTestCase(unittest.TestCase):
         self.db_obj.create_tables()
 
         self.client = self.app.test_client()
-
+        #users
         self.sign_up_data = {
             "firstname":"larry",
             "lastname":"kubende",
             "othername":"karani",
             "email":"ka@gmail.com",
             "password":"werfg",
-            "phoneNumber":"07020103",
+            "phoneNumber":"0702010376",
             "username":"thegeek"
+        }
+
+        self.invalid_phone = {
+            "firstname":"larry",
+            "lastname":"kubende",
+            "othername":"karani",
+            "email":"ka@gmail.com",
+            "password":"werfg",
+            "phoneNumber":"070201",
+            "username":"thegeek"
+        }
+        
+        self.invalid_firstname = {
+            "firstname":" ",
+            "lastname":"kubende",
+            "othername":"karani",
+            "email":"ka@gmail.com",
+            "password":"werfg",
+            "phoneNumber":"0702010376",
+            "username":"thegeek"
+        }
+
+        self.login_data = {
+             "password":"werfg",
+             "username":"thegeek"
+
+        }
+
+        self.wrong_data = {
+            "password":"wjames",
+             "username":"thegeek"
+
+        }
+
+        self.wrong_password = {
+             "password":"wetrr",
+             "username":"thegeek"
+
+        }
+
+        self.empty_username = {
+             "password":"werfg",
+             "username":" "
+
+        }
+
+        self.empty_password = {
+            "password":" ",
+             "username":"thegeek"
+        }
+
+        #incident_data
+        self.incident_data = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+         }      
+        
+        self.redflag_data = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+         }      
+        self.redflag_data_with_empty_created={
+             "createdBy": " ",
+             "incidence_type" : "red-flag",
+             "location": "123456,23434",
+             "comment":"String"
+        }
+        self.redflag_data_with_empty_type ={
+             "createdBy": "Larry karani",
+             "incidence_type" : " ",
+             "location": "123456,23434",
+             "comment":"String"
+        }
+
+        self.redflag_data_empty_location = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": " ",
+             "comment":"String"
+         }
+        self.redflag_data_empty_comment = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "123,3445",
+             "comment":" "
+         }
+        self.redflag_data_invalid_location = {
+             "createdBy": "Larry karani",
+             "incidence_type" : "red-flag",
+             "location": "long, lat",
+             "comment":"String"
+         }
+        self.location_data = {
+             "location": "3333,5555"
+         }
+        self.comment_data= {
+             "comment": "hey you"
+         }
+
+        self.update_redflag_status = {
+             "status": "3333,5555"
+         }
+
+        self.invalid_location = {
+            "location":"@#$%^&,@#$%^&"
+        }
+        self.invalid_comment = {
+            "comment":"@#$%^&,@#$%^&"
         }
 
     def tearDown(self):
