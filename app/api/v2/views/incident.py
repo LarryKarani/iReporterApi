@@ -1,9 +1,11 @@
 import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from app.api.v2.models.users import User
 #local import 
 from app.api.v2.models.incident import Incidents
-from app.api.v2.validators.validate_incident import IncidenceSchema, UpdateLocationSchema, UpdateCommentSchema
+from app.api.v2.validators.validate_incident import (IncidenceSchema, UpdateLocationSchema, UpdateCommentSchema, 
+UpdateStatusSchema)
 
 authorizations = {
     'apikey': {
@@ -202,3 +204,49 @@ class UpdateComment(Resource, Incidents):
                  "id" : target[0],
                  "message" : "Updated red-flag record’s comment"
              }
+
+
+update_status = {"status": webargs.fields.Str(required=True)}
+update_status_args_model = v2_incident.model("update_status_args", {"status": fields.String(required=True)})
+@v2_incident.header("Authorization", "Access tokken", required=True)
+class UpdateStatus(Resource, Incidents, User):
+    @v2_incident.doc(body=update_status_args_model, security='apikey')
+    @jwt_required
+    def patch(self, incident_id):
+        '''allow admin to change the status of an incidence'''
+
+        current_user = get_jwt_identity()
+        user = self.check_username(current_user)
+
+        #checks if the user is an admin
+        if not user[8]:
+            return {'message': 'Only admim can change status'}
+        
+        data = v2_incident.payload
+        schema= UpdateStatusSchema()
+        results = schema.load(data)
+        errors = results.errors
+        update_status_field = ['status']
+
+        for error in update_status_field:
+            if error in errors.keys():
+                return{'message': errors[error][0]}, 400
+        
+        target = self.get_an_incident(incident_id)
+        if not target:
+            return {'message': 'Incident does not exist'},404
+        
+        else:
+            status = data['status']
+            self.update_status(incident_id, status)
+            target = self.get_an_incident(incident_id)
+            keys = ['id', 'createdon', 'createdby', 'type','location', 'status', 'comment']
+            output = dict(zip(keys, target))
+        
+            return {
+                 'status':200, 
+                 "data" : [output],
+                 "id" : target[0],
+                 "message" : "Updated incidence record’s status"
+             }
+             

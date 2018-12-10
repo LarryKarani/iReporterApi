@@ -134,3 +134,16 @@ class TestCreateIncidence(BaseTestCase):
         data = json.loads(response.data)
         self.assertEqual(data['message'], '@#$%^&,@#$%^& is not a valid comment')
         self.assertTrue(response.status_code == 400)
+    
+    def test_update_status_with_no_admin_rights(self):
+        self.client.post(
+            'api/v2/interventions/', headers=self.headers, data=json.dumps(self.redflag_data)
+        )
+
+        response = self.client.patch(
+             'api/v2/interventions/1/status', headers=self.headers, data=json.dumps(self.status_data)
+        )
+        data = json.loads(response.data)
+        self.assertEqual(data['message'], 'Only admim can change status')
+        self.assertTrue(response.status_code == 200)
+

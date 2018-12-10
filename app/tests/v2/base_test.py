@@ -133,6 +133,13 @@ class BaseTestCase(unittest.TestCase):
         self.invalid_comment = {
             "comment":"@#$%^&,@#$%^&"
         }
+        self.status_data = {
+            "status":"resolved"
+        }
+
+        self.invalid_status_data = {
+            "status":"@#$%^&,@#$%^&"
+        }
 
     def tearDown(self):
         self.db_obj.drop_all_tables()

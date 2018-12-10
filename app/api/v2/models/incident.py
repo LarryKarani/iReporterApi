@@ -82,7 +82,7 @@ class Incidents():
 
     def update_status(self,id,status):
         sql=f"UPDATE incidences SET status = \'{status}\' WHERE incidences.id = {id}"
-        conn = self.db_obj.con
+        conn = conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
