@@ -1,5 +1,5 @@
 import unittest
-from instance import create_app
+from app import create_app
 
 from app.api.v2.models.users import Db
 class BaseTestCase(unittest.TestCase):

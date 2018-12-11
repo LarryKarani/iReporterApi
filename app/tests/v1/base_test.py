@@ -4,7 +4,7 @@ import json
 import unittest
 
 #local imports
-from instance import create_app
+from app import create_app
 from app.api.v1.models.incidence_model import Incidence
 from app.api.v1.models.user_model import Users
 
