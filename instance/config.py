@@ -10,7 +10,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     db_url ="host=localhost user=postgres password=6398litein dbname=Crud"
 
-
 class TestingConfig(Config):
     """configuration for the testing environment"""
     DEBUG = True

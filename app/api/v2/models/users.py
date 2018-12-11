@@ -6,9 +6,9 @@ from werkzeug.security import generate_password_hash
 from .db import Db
 
 class User():
-    def __init__(self, firstname, lastname , othername, email, phoneNumber, username, password):
+    def __init__(self, firstname, lastname , othername, email, phoneNumber, username, password, isAdmin=False):
         self.registered = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.isAdmin = False
+        self.isAdmin = isAdmin
         self.firstname = firstname
         self.lastname = lastname
         self.othername = othername
