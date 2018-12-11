@@ -3,6 +3,7 @@ from app.api.v1 import v1_blueprint
 from app.api.v2 import v2_blueprint
 from .api.v2 import v2_api
 from app.api.v2.models.db import Db
+from app.api.v2.models.users import User
 from flask_jwt_extended import JWTManager
 db_object=Db()
 
@@ -12,6 +13,7 @@ def create_app(config_name):
     """app factory creates the instance of the app"""
     app = Flask(__name__)
     db_object.create_tables()
+    User.create_admin()
     jwt = JWTManager(app)
     app.config['JWT_SECRET_KEY'] = '%****#@#'
     app.config.from_object(config[config_name])
