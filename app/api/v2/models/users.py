@@ -101,6 +101,6 @@ def admin_required(f):
     def wrapper(*args, **kwargs):
         user = User.check_username(get_jwt_identity())
         if user[8] != True:
-            return {'message': 'you dont have the privilege to perform this task consult administrator'}, 401
+            return {'message': 'Only admim can change status'}, 401
         return f(*args, **kwargs)
     return wrapper

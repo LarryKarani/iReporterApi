@@ -145,5 +145,5 @@ class TestCreateIncidence(BaseTestCase):
         )
         data = json.loads(response.data)
         self.assertEqual(data['message'], 'Only admim can change status')
-        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.status_code == 401)
 
