@@ -1,9 +1,12 @@
 """This module contains the user model that adds a new user to the db"""
 import datetime
+from flask_jwt_extended import get_jwt_identity
 from werkzeug.security import generate_password_hash
+from functools import wraps
 
 #local imports
 from .db import Db
+
 
 class User():
     def __init__(self, firstname, lastname , othername, email, phoneNumber, username, password, isAdmin=False):
@@ -16,7 +19,7 @@ class User():
         self.phoneNumber = phoneNumber
         self.username = username
         self.password = generate_password_hash(password.strip())
-        self.db_obj = Db()
+       
 
     def __repr__(self):
         return {
@@ -24,19 +27,19 @@ class User():
             'isAdmin':self.isAdmin,
             'email': self.email
         }
-
-    def check_username(self, username):
+    @classmethod
+    def check_username(cls, username):
         """checks if username already exists"""
         sql = "SELECT * FROM users WHERE users.username=\'%s\' "%(username)
         curr = Db().cur
         curr.execute(sql)
         output =curr.fetchone()
         return output
-
-    def check_email(self, email):
+    @classmethod
+    def check_email(cls, email):
         """checks if email is already in use"""
         sql = "SELECT * FROM users WHERE users.email=\'%s\' "%(email)
-        curr = self.db_obj.cur
+        curr = Db().cur
         curr.execute(sql)
         output = curr.fetchone()
         return output
@@ -63,16 +66,41 @@ class User():
                                 self.isAdmin,
                                 self.password  
                             )
-        conn = self.db_obj.con
+        conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         print("addedd")
         conn.commit()
     
-    def get_a_user(self, id):
+    @staticmethod
+    def get_a_user(id):
         sql = f"SELECT * FROM users WHERE users.id={id}"
-        curr = self.db_obj.cur
+        curr = Db().cur
         curr.execute(sql)
         output = curr.fetchone()
         return output
+    @classmethod
+    def promote_user(cls,username):
+        sql="UPDATE users SET isAdmin=True WHERE users.username=%s"
+        conn = Db().con
+        curr = conn.cursor()
+        curr.execute(sql,(username,))
+        conn.commit()
+    @classmethod
+    def create_admin(cls):
+        try:
+            admin = User('ben','larry','kkk','kara@g.com','0701043047', 'kkk','lll')
+            admin.register_user()
+            admin.promote_user('kkk')
+        except:
+            return 'user already exists'
 
+  
+def admin_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        user = User.check_username(get_jwt_identity())
+        if user[8] != True:
+            return {'message': 'Only admim can change status'}, 401
+        return f(*args, **kwargs)
+    return wrapper

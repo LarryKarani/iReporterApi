@@ -75,7 +75,7 @@ class Login(Resource, User):
             if e in errors.keys():
                 return {'message': errors[e][0]}, 400
 
-        current_user= self.check_username(data['username'])
+        current_user= User.check_username(data['username'])
         
         if not current_user:
             return {'message': 'Username does not exist'}, 400
