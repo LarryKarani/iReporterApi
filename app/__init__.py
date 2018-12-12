@@ -5,6 +5,7 @@ from .api.v2 import v2_api
 from app.api.v2.models.db import Db
 from app.api.v2.models.users import User
 from flask_jwt_extended import JWTManager
+from app.api.v2.views import blacklist
 db_object=Db()
 
 from instance.config import config
@@ -15,6 +16,7 @@ def create_app(config_name):
     db_object.create_tables()
     User.create_admin()
     jwt = JWTManager(app)
+    app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_SECRET_KEY'] = '%****#@#'
     app.config.from_object(config[config_name])
     
@@ -27,6 +29,13 @@ def create_app(config_name):
     @app.errorhandler(404)
     def page_not_found(e):
         return jsonify({"error": "oops! page not found"}), 404
+
+    
+
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        return jti in blacklist
 
     return app
     

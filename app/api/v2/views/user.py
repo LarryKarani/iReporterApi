@@ -2,8 +2,8 @@ import webargs
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
-
-
+from app.api.v2.views import blacklist
+from flask_jwt_extended import jwt_required, get_raw_jwt
 #local import
 from app.api.v2.models.users import User
 from app.api.v2.validators.validate_user import UserSchema, LoginSchema
@@ -87,4 +87,14 @@ class Login(Resource, User):
 
         return {'message': 'Logged in as {}'.format(data['username']),
                 'access_token': access_token}, 200
-        
+
+
+class Logout(Resource):
+    """logout users"""
+    @v2_user.doc(security="apikey")
+    @jwt_required
+    def post(self):
+        """Log out a given user by blacklisting user's token"""
+        jti = get_raw_jwt()["jti"]
+        blacklist.add(jti)
+        return ({'message': "Successfully logged out"}), 200
