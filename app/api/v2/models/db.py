@@ -37,7 +37,9 @@ class Db:
                 type VARCHAR(255) NOT NULL,
                 location VARCHAR(255) NOT NULL,
                 status VARCHAR(255) NOT NULL,
-                comment VARCHAR(255) NOT NULL
+                comment VARCHAR(255) NOT NULL,
+                FOREIGN KEY(createdBy) REFERENCES users(username)
+
             )""",
         )
         for q in queries:
