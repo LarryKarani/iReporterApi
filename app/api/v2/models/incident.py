@@ -31,13 +31,13 @@ class Incidents():
 
     def create_an_incident(self):
         """Registers a new incident to the database"""
-        sql = "INSERT INTO incidences (createdOn,\
+        sql = """INSERT INTO incidences (createdOn,\
                                        createdBy,\
                                        type,\
                                        location,\
                                        status,\
                                        comment)\
-                                VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"%(
+                                VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"""%(
                                 self.createdOn,
                                 self.createdBy,
                                 self.incidence_type,
