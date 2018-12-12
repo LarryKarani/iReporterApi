@@ -15,11 +15,12 @@ class IncidenceSchema(Schema):
 
     @validates('comment')
     def validate_comment(self, comment):
-        r = re.compile("^[a-zA-Z ]*$")
+        
+        r = re.compile("^[A-Za-z0-9.,:;!?'$()\s]+$")
         if comment.strip() == '':
             raise ValidationError('Fields cannot be blank')
         elif not r.match(comment):
-            raise ValidationError("{} is not a valid ".format(comment))
+            raise ValidationError("{} is not a valid comment".format(comment))
 
     @validates('location')
     def validate_location(self, location):
