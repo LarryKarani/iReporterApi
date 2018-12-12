@@ -14,3 +14,4 @@ instance/__init__.pyc
 .cache/
 app/tests/__init__.pyc
 app/tests/v1/__init__.pyc
+.env
