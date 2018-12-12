@@ -3,17 +3,18 @@
 import os
 class Config:
     """This class holds a common config for all environments"""
-    SECRET_KEY = os.environ.get('SECRET_KEY') or '@#57#%@'
+    SECRET_KEY = os.getenv('SECRET_KEY') or '@#57#%@'
+    db_url = os.getenv('DATABASE_URL')
 
 class DevelopmentConfig(Config):
     """Configurations for the development environment"""
     DEBUG = True
-    db_url ="host=localhost user=postgres password=6398litein dbname=Crud"
+    
 
 class TestingConfig(Config):
     """configuration for the testing environment"""
     DEBUG = True
-    db_url = "host=localhost user=postgres password=6398litein dbname=testing_db"
+    db_url = os.getenv('TEST_DATABASE_URL')
 class ProductionConfig(Config):
     """configuration for the production environment"""
     DEBUG = False
