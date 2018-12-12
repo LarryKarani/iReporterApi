@@ -73,14 +73,14 @@ class BaseTestCase(unittest.TestCase):
 
         #incident_data
         self.incident_data = {
-             "createdBy": "Larry karani",
+             "createdBy": "thegeek",
              "incidence_type" : "red-flag",
              "location": "123456,23434",
              "comment":"String"
          }      
         
         self.redflag_data = {
-             "createdBy": "Larry karani",
+             "createdBy": "thegeek",
              "incidence_type" : "red-flag",
              "location": "123456,23434",
              "comment":"String"
@@ -92,26 +92,26 @@ class BaseTestCase(unittest.TestCase):
              "comment":"String"
         }
         self.redflag_data_with_empty_type ={
-             "createdBy": "Larry karani",
+             "createdBy": "thegeek",
              "incidence_type" : " ",
              "location": "123456,23434",
              "comment":"String"
         }
 
         self.redflag_data_empty_location = {
-             "createdBy": "Larry karani",
+             "createdBy": "thegeek",
              "incidence_type" : "red-flag",
              "location": " ",
              "comment":"String"
          }
         self.redflag_data_empty_comment = {
-             "createdBy": "Larry karani",
+             "createdBy": "thegeek",
              "incidence_type" : "red-flag",
              "location": "123,3445",
              "comment":" "
          }
         self.redflag_data_invalid_location = {
-             "createdBy": "Larry karani",
+             "createdBy":"thegeek",
              "incidence_type" : "red-flag",
              "location": "long, lat",
              "comment":"String"
