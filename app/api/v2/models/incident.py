@@ -1,10 +1,11 @@
-"""This module contains the incident model that adds a new incident to the db"""
 import datetime
 
-#local imports
+# local imports
 from app.api.v2.models.db import Db
 
+
 class Incidents():
+    """handles all the incident related opperations"""
     def __init__(self, createdBy, incidence_type, location, comment):
         self.createdOn = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.status = 'Draft'
@@ -15,18 +16,20 @@ class Incidents():
         self.incidence_type = incidence_type
 
     def __repr__(self):
+        """creates  a string representation of the incident class"""
         return {
-            'username':self.createdBy,
-            'createdOn':self.createdOn,
+            'username': self.createdBy,
+            'createdOn': self.createdOn,
             'status': self.status
         }
 
     def get_all_incidents_created_by_a_user(self):
         """gets all the incidences created by a user"""
-        sql = "SELECT * FROM incidences WHERE users.createdBy=\'%s\' "%(self.createdBy)
+        sql = "SELECT * FROM incidences WHERE users.createdBy=\'%s\' " % (
+            self.createdBy)
         curr = Db().cur
         curr.execute(sql)
-        output =curr.fetchall()
+        output = curr.fetchall()
         return output
 
     def create_an_incident(self):
@@ -37,20 +40,21 @@ class Incidents():
                                        location,\
                                        status,\
                                        comment)\
-                                VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"""%(
-                                self.createdOn,
-                                self.createdBy,
-                                self.incidence_type,
-                                self.location,
-                                self.status,
-                                self.comment
-                                )
+            VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')""" % (
+            self.createdOn,
+            self.createdBy,
+            self.incidence_type,
+            self.location,
+            self.status,
+            self.comment
+        )
         conn = self.db_obj.con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
-    
+
     def get_an_incident(self, id):
+        """get an incident by id """
         sql = f"SELECT * FROM incidences WHERE incidences.id={id}"
         curr = Db().cur
         curr.execute(sql)
@@ -58,14 +62,16 @@ class Incidents():
         return output
 
     def get_all_incidents(self):
+        """gets all available incidents"""
         sql = f"SELECT * FROM incidences"
         curr = Db().cur
         curr.execute(sql)
         output = curr.fetchall()
         return output
-    
+
     def update_comment(self, id, comment):
-        sql=f"UPDATE  incidences SET comment = \'{comment}\'\
+        """updates the comment of an incident"""
+        sql = f"UPDATE  incidences SET comment = \'{comment}\'\
                                     WHERE incidences.id = {id}"
         conn = Db().con
         curr = conn.cursor()
@@ -73,24 +79,27 @@ class Incidents():
         conn.commit()
 
     def update_location(self, id, location):
-        sql=f"UPDATE  incidences SET location = \'{location}\'\
-                                    WHERE incidences.id = {id}"
+        """updates the location of an incident"""
+        sql = f"UPDATE  incidences SET location = \'{location}\'\
+              WHERE incidences.id = {id}"
         conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
 
-    def update_status(self,id,status):
-        sql=f"UPDATE incidences SET status = \'{status}\' WHERE incidences.id = {id}"
+    def update_status(self, id, status):
+        """updates the status of an incident"""
+        sql = f"UPDATE incidences SET status = \'{status}\'\
+         WHERE incidences.id = {id}"
         conn = conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
 
-    def delete_incident(self,id):
+    def delete_incident(self, id):
+        """deletes an incident by id"""
         sql = f"DELETE FROM incidences WHERE incidences.id ={id}"
         conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()
-    
