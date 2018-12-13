@@ -15,7 +15,6 @@ class IncidenceSchema(Schema):
 
     @validates('comment')
     def validate_comment(self, comment):
-        
         r = re.compile("^[A-Za-z0-9.,:;!?'$()\s]+$")
         if comment.strip() == '':
             raise ValidationError('Fields cannot be blank')

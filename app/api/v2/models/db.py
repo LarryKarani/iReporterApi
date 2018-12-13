@@ -7,17 +7,19 @@ from instance.config import config
 
 environment = os.getenv('FLASK_ENV')
 database_url = config[environment].db_url
-   
+
+
 class Db:
+    """handles all the initial db transactions"""
     def __init__(self):
         self.con = psycopg2.connect(database_url)
         self.cur = self.con.cursor()
 
-        
     def create_tables(self):
+        """creates the users and incidents table"""
         queries = (
-             # creates users table
-            """CREATE TABLE IF NOT EXISTS users( 
+            # creates users table
+            """CREATE TABLE IF NOT EXISTS users(
                 id SERIAL PRIMARY KEY,
                 firstname VARCHAR(255) NOT NULL,
                 lastname VARCHAR(255) NOT NULL,
@@ -47,7 +49,7 @@ class Db:
             self.con.commit()
 
     def drop_all_tables(self):
-        '''Deletes all the tables'''
+        """Deletes all the tables"""
         queries = (
             'drop table if exists "users" cascade;',
             'drop table if exists "incidences" cascade;'
