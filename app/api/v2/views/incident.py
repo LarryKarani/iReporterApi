@@ -100,7 +100,7 @@ class AnIncident(Resource, Incidents):
                 'type', 'location', 'status', 'comment']
         incident = self.get_an_incident(incident_id)
         if not incident:
-            return {'message': 'Incident does not exist'}, 400
+            return {'message': 'Incident does not exist'}, 404
 
         output = dict(zip(keys, incident))
         return {
@@ -116,13 +116,13 @@ class AnIncident(Resource, Incidents):
         if not incident:
             return {
                 'message': 'Incident with given id {} does not exist'
-                .format(incident_id)}, 400
+                .format(incident_id)}, 404
         self.delete_incident(incident_id)
         return {
             'status': 200,
             'id': incident[0],
             'message': 'record deleted successfully'
-        }
+        }, 200
 
 
 update_location = {"location": webargs.fields.Str(required=True)}
@@ -209,7 +209,7 @@ class UpdateComment(Resource, Incidents):
 
         target = self.get_an_incident(incident_id)
         if not target:
-            return {'message': 'Incident does not exist'}
+            return {'message': 'Incident does not exist'}, 404
 
         status = target[5]
         if status != 'Draft':
@@ -227,7 +227,7 @@ class UpdateComment(Resource, Incidents):
             "data": [output],
             "id": target[0],
             "message": "Updated red-flag record’s comment"
-        }
+        }, 200
 
 
 update_status = {"status": webargs.fields.Str(required=True)}
@@ -274,4 +274,4 @@ class UpdateStatus(Resource, Incidents, User):
                 "data": [output],
                 "id": target[0],
                 "message": "Updated incidence record’s status"
-            }
+            }, 200
