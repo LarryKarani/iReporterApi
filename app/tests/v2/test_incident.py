@@ -100,7 +100,7 @@ class TestCreateIncidence(BaseTestCase):
 
         self.assertEqual(
             data['message'], 'Incident with given id 1 does not exist')
-        self.assertTrue(response.status_code == 400)
+        self.assertTrue(response.status_code == 404)
 
     def test_update_location(self):
         self.client.post(
