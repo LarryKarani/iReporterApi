@@ -39,7 +39,7 @@ class Register(Resource):
 
         for e in error_types:
             if e in errors.keys():
-                return {'message': errors[e][0] + ' {}'.format(e)}, 400
+                return {'message': 'Invalid or missing {}'.format(e)}, 400
 
         new_user = User(
             data['firstname'],
@@ -77,7 +77,7 @@ class Login(Resource, User):
 
         for e in error_types:
             if e in errors.keys():
-                return {'message': errors[e][0] + ' {}'.format(error)}, 400
+                return {'message': 'Invalid or missing {}'.format(e)}, 400
 
         current_user = User.check_username(data['username'])
 

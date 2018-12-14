@@ -34,15 +34,15 @@ class BaseTestCase(unittest.TestCase):
             "username": "thegeek"
         }
 
-        self.invalid_firstname = {
-            "firstname": " ",
-            "lastname": "kubende",
-            "othername": "karani",
-            "email": "ka@gmail.com",
-            "password": "werfg",
-            "phoneNumber": "0702010376",
-            "username": "thegeek"
-        }
+        self.invalid_firstname = {"firstname": " ",
+                                  "lastname": "kubende",
+                                  "othername": "karani",
+                                  "email": "ka@gmail.com",
+                                  "password": "werfg",
+                                  "phoneNumber": "0702010376",
+                                  "username": "thegeek"
+
+                                  }
 
         self.login_data = {
             "password": "werfg",
