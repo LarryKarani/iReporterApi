@@ -6,6 +6,7 @@ from app.api.v2.models.db import Db
 
 class Incidents():
     """handles all the incident related opperations"""
+
     def __init__(self, createdBy, incidence_type, location, comment):
         self.createdOn = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.status = 'Draft'
@@ -40,7 +41,8 @@ class Incidents():
                                        location,\
                                        status,\
                                        comment)\
-            VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')""" % (
+            VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')
+            RETURNING id""" % (
             self.createdOn,
             self.createdBy,
             self.incidence_type,
@@ -50,7 +52,7 @@ class Incidents():
         )
         conn = self.db_obj.con
         curr = conn.cursor()
-        curr.execute(sql)
+        curr.execute(sql, self)
         conn.commit()
 
     def get_an_incident(self, id):
@@ -91,7 +93,7 @@ class Incidents():
         """updates the status of an incident"""
         sql = f"UPDATE incidences SET status = \'{status}\'\
          WHERE incidences.id = {id}"
-        conn = conn = Db().con
+        conn = Db().con
         curr = conn.cursor()
         curr.execute(sql)
         conn.commit()

@@ -37,7 +37,7 @@ class TestCreateIncidence(BaseTestCase):
         data = json.loads(response.data)
         self.assertEqual(data['data'][0]['message'],
                      'Created incidence record')
-        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.status_code == 201)
 
     def test_create_incident_with_empty_type(self):
         response = self.client.post(

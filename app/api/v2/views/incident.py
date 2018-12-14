@@ -56,15 +56,15 @@ class Incidences(Resource, Incidents):
             data['location'],
             data['comment']
         )
-        new_instance.create_an_incident()
-        id = len(new_instance.get_all_incidents())
+        id = new_instance.create_an_incident()
+
         return {
             'status': 201,
             'data': [{
-                'id': id,
+                'incident': data,
                 'message':  'Created incidence record'
             }]
-        }
+        }, 201
 
     @v2_incident.doc(security='apikey')
     @jwt_required
