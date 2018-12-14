@@ -25,9 +25,16 @@ class TestRegister(BaseTestCase):
     def test_register_user_invalid_phone(self):
         response = self.client.post('api/v2/auth/signup', data=json.dumps(self.invalid_phone), content_type='application/json')
         self.assertTrue(response.status_code==400)
-        self.assertTrue('phone number should be 10 characters  long' == json.loads(response.data)['message'])
+
+        print(response.status_code)
+        print(json.loads(response.data)['message'])
+
+        self.assertEqual('Invalid or missing phoneNumber',
+                         json.loads(response.data)['message'])
 
     def test_register_user_empty_firstname(self):
         response = self.client.post('api/v2/auth/signup', data=json.dumps(self.invalid_firstname), content_type='application/json')
-        self.assertTrue(response.status_code==400)
-        self.assertIn('fields cannot be blank' , json.loads(response.data)['message']['message'])
+        print(json.loads(response.data))
+        self.assertTrue(response.status_code == 400)
+        
+        self.assertEqual('Invalid or missing firstname', json.loads(response.data)['message'])

@@ -45,8 +45,8 @@ class TestCreateIncidence(BaseTestCase):
             data=json.dumps(self.redflag_data_with_empty_type)
         )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], {
-                         'message': 'Fields cannot be blank'})
+        self.assertEqual(data['message'],
+                         'Invalid or missing incidence_type')
         self.assertTrue(response.status_code == 400)
 
     def test_create_incident_with_empty_location(self):
@@ -55,8 +55,8 @@ class TestCreateIncidence(BaseTestCase):
             data=json.dumps(self.redflag_data_empty_location)
         )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], {
-                         'message': 'Fields cannot be blank'})
+        self.assertEqual(data['message'], 
+                         'Invalid or missing location')
         self.assertTrue(response.status_code == 400)
 
     def test_get_all_incedent(self):
@@ -128,7 +128,7 @@ class TestCreateIncidence(BaseTestCase):
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
-            data['message'], "@#$%^&,@#$%^& is not a valid location")
+            data['message'], 'Invalid or missing location')
 
     def test_update_comment(self):
         self.client.post(
@@ -156,7 +156,7 @@ class TestCreateIncidence(BaseTestCase):
         )
         data = json.loads(response.data)
         self.assertEqual(
-            data['message'], '@#$%^&,@#$%^& is not a valid comment')
+            data['message'], 'Invalid or missing comment')
         self.assertTrue(response.status_code == 400)
 
     def test_update_status_with_no_admin_rights(self):

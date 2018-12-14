@@ -47,7 +47,7 @@ class Incidences(Resource, Incidents):
                             'location', 'incidence_type', 'comment']
         for error in incidence_fields:
             if error in errors.keys():
-                return{'message': errors[error][0]}, 400
+                return{'message': 'Invalid or missing {}'.format(error)}, 400
 
         current_user = get_jwt_identity()
         new_instance = Incidents(
@@ -152,7 +152,7 @@ class UpdateLocation(Resource, Incidents):
         update_location_field = ['location']
         for error in update_location_field:
             if error in errors.keys():
-                return{'message': errors[error][0]}, 400
+                return{'message': 'Invalid or missing {}'.format(error)}, 400
 
         target = self.get_an_incident(incident_id)
         if not target:
@@ -205,7 +205,7 @@ class UpdateComment(Resource, Incidents):
 
         for error in update_location_field:
             if error in errors.keys():
-                return{'message': errors[error][0]}, 400
+                return{'message': 'Invalid or missing {}'.format(error)}, 400
 
         target = self.get_an_incident(incident_id)
         if not target:
@@ -255,7 +255,7 @@ class UpdateStatus(Resource, Incidents, User):
 
         for error in update_status_field:
             if error in errors.keys():
-                return{'message': errors[error][0]}, 400
+                return{'message': 'Invalid or missing {}'.format(error)}, 400
 
         target = self.get_an_incident(incident_id)
         if not target:
