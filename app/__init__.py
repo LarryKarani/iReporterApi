@@ -2,6 +2,8 @@ from instance.config import config
 from flask import Flask,  jsonify
 from app.api.v1 import v1_blueprint
 from app.api.v2 import v2_blueprint
+from app.api.v2 import v2_blueprint
+from app.api.v2.decorators import errors
 from .api.v2 import v2_api
 from app.api.v2.models.db import Db
 from app.api.v2.models.users import User
@@ -24,14 +26,11 @@ def create_app(config_name):
 
     app.register_blueprint(v2_blueprint, url_prefix="/api/v2")
     app.register_blueprint(v1_blueprint, url_prefix="/api/v1")
+    app.register_blueprint(errors)
     api = v2_api
 
     jwt._set_error_handler_callbacks(api)
     # this function hundles 404 errors
-
-    @app.errorhandler(404)
-    def page_not_found(e):
-        return jsonify({"error": "oops! page not found"}), 404
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):

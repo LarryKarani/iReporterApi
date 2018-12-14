@@ -4,7 +4,7 @@ from flask_restplus import Api
 from app.api.v2.views.user import v2_user
 from app.api.v2.views.incident import v2_incident
 
-v2_blueprint =Blueprint('v2_blueprint', __name__, url_prefix='/api/v2')
+v2_blueprint = Blueprint('v2_blueprint', __name__, url_prefix='/api/v2')
 v2_api = Api(v2_blueprint,
              title="iReporter",
              version="2",

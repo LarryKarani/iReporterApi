@@ -25,7 +25,7 @@ class Incidents():
 
     def get_all_incidents_created_by_a_user(self):
         """gets all the incidences created by a user"""
-        sql = "SELECT * FROM incidences WHERE users.createdBy=\'%s\' " % (
+        sql = "SELECT * FROM incidences WHERE users.createdBy=\'%s\'" % (
             self.createdBy)
         curr = Db().cur
         curr.execute(sql)
