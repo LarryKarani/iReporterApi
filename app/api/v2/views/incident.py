@@ -158,6 +158,12 @@ class UpdateLocation(Resource, Incidents):
         if not target:
             return {'message': 'Incident does not exist'}, 404
 
+        createdBy = target[2]
+        current_user = get_jwt_identity()
+        if createdBy != current_user:
+            return {"error":
+                    "Not allowed to edit a location you din't create"}, 405
+
         if target[5] != 'Draft':
             return {"message": "You cant change location for this intervention\
              its status is changed"}, 204
@@ -214,7 +220,8 @@ class UpdateComment(Resource, Incidents):
         createdBy = target[2]
         current_user = get_jwt_identity()
         if createdBy != current_user:
-            return {"error": "Not allowed to edit a comment you din't create"}
+            return {"error":
+                    "Not allowed to edit a comment you din't create"}, 405
         status = target[5]
         if status != 'Draft':
             return {"message": "You cant change the comment for this\
