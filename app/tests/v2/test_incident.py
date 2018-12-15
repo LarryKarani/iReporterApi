@@ -31,12 +31,12 @@ class TestCreateIncidence(BaseTestCase):
         '''Test that a user can create
          an incidence of type red-flag or intervention'''
         response = self.client.post(
-        'api/v2/interventions/',
-        headers=self.headers, data=json.dumps(self.redflag_data)
-         )
+            'api/v2/interventions/',
+            headers=self.headers, data=json.dumps(self.redflag_data)
+        )
         data = json.loads(response.data)
         self.assertEqual(data['data'][0]['message'],
-                     'Created incidence record')
+                         'Created incidence record')
         self.assertTrue(response.status_code == 201)
 
     def test_create_incident_with_empty_type(self):
@@ -55,7 +55,7 @@ class TestCreateIncidence(BaseTestCase):
             data=json.dumps(self.redflag_data_empty_location)
         )
         data = json.loads(response.data)
-        self.assertEqual(data['message'], 
+        self.assertEqual(data['message'],
                          'Invalid or missing location')
         self.assertTrue(response.status_code == 400)
 
@@ -172,3 +172,18 @@ class TestCreateIncidence(BaseTestCase):
         data = json.loads(response.data)
         self.assertEqual(data['message'], 'Only admim can change status')
         self.assertTrue(response.status_code == 401)
+
+    def test_create_incident_invalid_incident_type(self):
+        '''Test that a user can create
+         an incidence of type red-flag or intervention'''
+        response = self.client.post(
+            'api/v2/interventions/',
+            headers=self.headers,
+            data=json.dumps(
+                self.redflag_data_invalid_incident_type)
+        )
+        data = json.loads(response.data)
+        self.assertEqual(data['message'],
+                         'Invalid or missing incidence_type'
+                         )
+        self.assertTrue(response.status_code == 400)
