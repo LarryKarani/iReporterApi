@@ -2,16 +2,18 @@
 import re
 from marshmallow import Schema, fields,  validates, ValidationError
 
+
 def validate_length(input):
-    if input.strip()=='':
-        raise ValidationError({'message':'Fields cannot be blank'})
+    if input.strip() == '':
+        raise ValidationError({'message': 'Fields cannot be blank'})
+
 
 class IncidenceSchema(Schema):
     '''Validates incidence data'''
 
-    location  = fields.String(required=True, validate=validate_length)
-    comment   = fields.String(required=True,  validate=validate_length)
-    incidence_type =fields.String(required=True, validate=validate_length)
+    location = fields.String(required=True, validate=validate_length)
+    comment = fields.String(required=True,  validate=validate_length)
+    incidence_type = fields.String(required=True, validate=validate_length)
 
     @validates('comment')
     def validate_comment(self, comment):
@@ -28,7 +30,16 @@ class IncidenceSchema(Schema):
         if location.strip() == '':
             raise ValidationError('Fields cannot be blank')
         elif not r.match(location):
-            raise ValidationError("{} is not a valid location".format(location))
+            raise ValidationError(
+                "{} is not a valid location".format(location))
+
+    @validates('incidence_type')
+    def validates_incident_type(self, incidence_type):
+        incident_types = ['red-flag', 'intervention']
+        if incidence_type.lower() not in incident_types:
+            raise ValidationError('incident type can either\
+             be a red-flag or intervention')
+
 
 class UpdateCommentSchema(Schema):
     '''validates update incident data'''
@@ -54,12 +65,14 @@ class UpdateLocationSchema(Schema):
         if location.strip() == '':
             raise ValidationError('Fields cannot be blank')
         elif not r.match(location):
-            raise ValidationError("{} is not a valid location".format(location))
+            raise ValidationError(
+                "{} is not a valid location".format(location))
 
 
 class UpdateStatusSchema(Schema):
     '''validates update incident data'''
     status = fields.String(required=True, validate=validate_length)
+
     @validates('status')
     def validate_location(self, status):
         status_option = ['resolved', 'under investigation', 'draft']
@@ -69,4 +82,6 @@ class UpdateStatusSchema(Schema):
         elif not r.match(status):
             raise ValidationError("{} is not a valid status".format(status))
         elif status.lower() not in status_option:
-            raise ValidationError("{} status can only be 'under investigation', 'draft' or resolved".format(status))
+            raise ValidationError(
+                "{} status can only be 'under investigation', 'draft' or\
+                 resolved".format(status))

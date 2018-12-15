@@ -87,6 +87,14 @@ class BaseTestCase(unittest.TestCase):
             "location": "90.0, 180.0",
             "comment": "String"
         }
+
+        self.redflag_data_invalid_incident_type = {
+            "createdBy": "thegeek",
+            "incidence_type": "red-uuu",
+            "location": "90.0, 180.0",
+            "comment": "String"
+        }
+
         self.redflag_data_with_empty_created = {
             "createdBy": " ",
             "incidence_type": "red-flag",
