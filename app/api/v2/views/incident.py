@@ -211,6 +211,10 @@ class UpdateComment(Resource, Incidents):
         if not target:
             return {'message': 'Incident does not exist'}, 404
 
+        createdBy = target[2]
+        current_user = get_jwt_identity()
+        if createdBy != current_user:
+            return {"error": "Not allowed to edit a comment you din't create"}
         status = target[5]
         if status != 'Draft':
             return {"message": "You cant change the comment for this\
