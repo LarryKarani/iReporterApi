@@ -1,6 +1,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/larryTheGeek/iReporterApi/badge.svg?branch=develop)](https://coveralls.io/github/larryTheGeek/iReporterApi?branch=develop)
 [![Build Status](https://travis-ci.com/larryTheGeek/iReporterApi.svg?branch=develop)](https://travis-ci.com/larryTheGeek/iReporterApi)
 [![Maintainability](https://api.codeclimate.com/v1/badges/55f6147ce61b0772db62/maintainability)](https://codeclimate.com/github/larryTheGeek/iReporterApi/maintainability)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 # iReporterApi
 iReporter is an application whose aim is to reduce corruption in Africa and foster economic development. It allows users to create red flags and interventions. It implents the following list of APIs.
