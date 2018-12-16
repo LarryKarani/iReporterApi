@@ -6,6 +6,7 @@ from .base_test import BaseTestCase
 
 class TestCreateIncidence(BaseTestCase):
     def setUp(self):
+        """Sets up the variables to be used within the test module"""
         # register a test user
         BaseTestCase.setUp(self)
         self.client.post('api/v2/auth/signup',
@@ -25,6 +26,7 @@ class TestCreateIncidence(BaseTestCase):
         }
 
     def tearDown(self):
+        """Drops all the tables after each tests"""
         BaseTestCase.tearDown(self)
 
     def test_create_incident(self):
@@ -40,6 +42,8 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 201)
 
     def test_create_incident_with_empty_type(self):
+        """test a user can not create an incident without
+        providing the type of the incident"""
         response = self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data_with_empty_type)
@@ -50,6 +54,8 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 400)
 
     def test_create_incident_with_empty_location(self):
+        """Test that a user cant create an incident
+         with an empty location"""
         response = self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data_empty_location)
@@ -80,6 +86,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_delete_incident(self):
+        """test that a user ca delete the the incident they created"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)
@@ -92,6 +99,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_delete_incident_does_not_exist(self):
+        """test that a user cant delete a non existant incident """
 
         response = self.client.delete(
             'api/v2/interventions/1', headers=self.headers)
@@ -103,6 +111,7 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 404)
 
     def test_update_location(self):
+        """test that a user can update the location of an incident"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)
@@ -117,6 +126,8 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_update_location_with_invalid_input(self):
+        """test that user cant update the location of an
+         incident with invalid input"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)
@@ -131,6 +142,7 @@ class TestCreateIncidence(BaseTestCase):
             data['message'], 'Invalid or missing location')
 
     def test_update_comment(self):
+        """"test that a user can update the comment they created"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)
@@ -145,6 +157,8 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_update_comment_invalid_commet(self):
+        """test that a user cannot update a comment
+         with invalid comment details"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)
@@ -160,6 +174,8 @@ class TestCreateIncidence(BaseTestCase):
         self.assertTrue(response.status_code == 400)
 
     def test_update_status_with_no_admin_rights(self):
+        """tests that a user cant update the status
+         of an incident with no admin rights"""
         self.client.post(
             'api/v2/interventions/', headers=self.headers,
             data=json.dumps(self.redflag_data)

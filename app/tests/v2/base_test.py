@@ -29,7 +29,7 @@ class BaseTestCase(unittest.TestCase):
             "lastname": "kubende",
             "othername": "karani",
             "email": "ka@gmail.com",
-             "password": "6398litein",
+            "password": "6398litein",
             "phoneNumber": "070201",
             "username": "thegeek"
         }
@@ -127,7 +127,7 @@ class BaseTestCase(unittest.TestCase):
             "comment": "String"
         }
         self.location_data = {
-           "location": "90.0, 180.0",
+            "location": "90.0, 180.0",
         }
         self.comment_data = {
             "comment": "hey you"
