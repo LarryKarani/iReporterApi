@@ -117,6 +117,13 @@ class AnIncident(Resource, Incidents):
             return {
                 'message': 'Incident with given id {} does not exist'
                 .format(incident_id)}, 404
+
+        createdBy = incident[2]
+        current_user = get_jwt_identity()
+        if createdBy != current_user:
+            return {"error":
+                    "Not allowed to edit a comment you din't create"}, 405
+                    
         self.delete_incident(incident_id)
         return {
             'status': 200,
