@@ -1,5 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/larryTheGeek/iReporterApi/badge.svg?branch=develop)](https://coveralls.io/github/larryTheGeek/iReporterApi?branch=develop)
 [![Build Status](https://travis-ci.com/larryTheGeek/iReporterApi.svg?branch=develop)](https://travis-ci.com/larryTheGeek/iReporterApi)
+[![Maintainability](https://api.codeclimate.com/v1/badges/55f6147ce61b0772db62/maintainability)](https://codeclimate.com/github/larryTheGeek/iReporterApi/maintainability)
 
 # iReporterApi
 iReporter is an application whose aim is to reduce corruption in Africa and foster economic development. It allows users to create red flags and interventions. It implents the following list of APIs.
@@ -12,15 +13,18 @@ The application is built using python: flask framework.
 ### End points
 Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
-|POST| `/api/v1/auth/register` |  Register a user. |
-|POST| `api/v1/auth/login` | Login user.|
-|POST| `api/v1/red-flags` | Create a new red-flag. |
-|GET| `api/v1/red-flags` | Get all the created redflags. |
-|GET| `api/v1/red-flags/<red_flag_id>` | Get a single redflag. |
-|PATCH| `api/v1/red-flags/<red_flag_id>/location` | Update a single redflag location. |
-|PATCH| `api/v1/red-flags/<red_flag_id>/comment` | Update a single redflag comment. |
-|PATCH| `api/v1/red-flags/<red_flag_id>/status` | Update a single redflag status. |
-|DELETE| `api/v1/red-flags/<red_flag_id>` | Delete a single redflag. |
+|POST| `/api/v2/auth/signup` |  Register a user. |
+|POST| `api/v2/auth/login` | Login user.|
+|POST| `api/v2/auth/logout` | Logs out a user.|
+|POST| `api/v2/interventions` | Create a new incident. |
+|GET| `api/v2/interventions` | Get all the created incidents. |
+|GET| `api/v2/interventions/<red_flag_id>` | Get a single incident. |
+|GET| `api/v2/interventions/user` | Get all incident of the logged in user. |
+
+|PATCH| `api/v2/interventions/<red_flag_id>/location` | Update a single incident location. |
+|PATCH| `api/v2/interventions/<red_flag_id>/comment` | Update a single incident comment. |
+|PATCH| `api/v2/interventions/<red_flag_id>/status` | Update a single incident status. |
+|DELETE| `api/v2/interventions/<red_flag_id>` | Delete a single incident. |
 
 ## Installation 🕵
 - To run on local machine git clone this project :
@@ -64,10 +68,13 @@ The app should be accessiable via : http://127.0.0.1:5000/
 open postman and navigate to the API endpoints described above
 
 ### HEROKU URL
- https://irepoter-afric-app.herokuapp.com/api/v1
+ https://ireporter-version2.herokuapp.com/api/v2/
  
 ### Owner
 - Larry Karani
+
+### Motivation
+https://www.youtube.com/watch?v=wHRUDL7GKmI
 
 
 
