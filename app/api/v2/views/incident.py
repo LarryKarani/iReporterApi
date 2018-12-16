@@ -286,3 +286,27 @@ class UpdateStatus(Resource, Incidents, User):
                 "id": target[0],
                 "message": "Updated incidence record’s status"
             }, 200
+
+
+class UserIncidences(Resource, Incidents):
+    @v2_incident.doc(security='apikey')
+    @jwt_required
+    def get(self):
+        '''gets all incidences created by a specific user'''
+        current_user = get_jwt_identity()
+        incidents = self.get_all_incidents_created_by_a_user(current_user)
+        if len(incidents) == 0:
+            return {'status': 200,
+                    'message': 'No records available'}
+
+        # convert the tuble to a list of dicts
+        keys = ['id', 'createdon', 'createdby',
+                'type', 'location', 'status', 'comment']
+        output = []
+        for values in incidents:
+            output.append(dict(zip(keys, values)))
+
+        return {
+            "status": 200,
+            "data": output
+        }

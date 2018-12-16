@@ -25,6 +25,12 @@ class UserSchema(Schema):
         elif not re.match('^[0-9]+$', phoneNumber):
             raise ValidationError('phone number should only contain digits')
 
+    @validates('password')
+    def validate_password(self, password):
+        if len(password) < 8:
+            raise ValidationError('password should be 8\
+            or more characters long')
+
 
 class LoginSchema(Schema):
     '''schema for validating login data'''

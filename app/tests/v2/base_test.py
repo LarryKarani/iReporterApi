@@ -19,7 +19,7 @@ class BaseTestCase(unittest.TestCase):
             "lastname": "kubende",
             "othername": "karani",
             "email": "ka@gmail.com",
-            "password": "werfg",
+            "password": "6398litein",
             "phoneNumber": "0702010376",
             "username": "thegeek"
         }
@@ -29,7 +29,7 @@ class BaseTestCase(unittest.TestCase):
             "lastname": "kubende",
             "othername": "karani",
             "email": "ka@gmail.com",
-            "password": "werfg",
+             "password": "6398litein",
             "phoneNumber": "070201",
             "username": "thegeek"
         }
@@ -38,14 +38,14 @@ class BaseTestCase(unittest.TestCase):
                                   "lastname": "kubende",
                                   "othername": "karani",
                                   "email": "ka@gmail.com",
-                                  "password": "werfg",
+                                  "password": "6398litein",
                                   "phoneNumber": "0702010376",
                                   "username": "thegeek"
 
                                   }
 
         self.login_data = {
-            "password": "werfg",
+            "password": "6398litein",
             "username": "thegeek"
 
         }
@@ -63,7 +63,7 @@ class BaseTestCase(unittest.TestCase):
         }
 
         self.empty_username = {
-            "password": "werfg",
+            "password": "6398litein",
             "username": " "
 
         }

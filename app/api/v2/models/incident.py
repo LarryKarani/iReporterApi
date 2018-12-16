@@ -24,10 +24,10 @@ class Incidents():
             'status': self.status
         }
 
-    def get_all_incidents_created_by_a_user(self):
+    def get_all_incidents_created_by_a_user(self, createdby):
         """gets all the incidences created by a user"""
-        sql = "SELECT * FROM incidences WHERE users.createdBy=\'%s\'" % (
-            self.createdBy)
+        sql = "SELECT * FROM incidences WHERE incidences.createdBy=\'%s\'" % (
+            createdby)
         curr = Db().cur
         curr.execute(sql)
         output = curr.fetchall()
