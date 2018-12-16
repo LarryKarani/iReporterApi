@@ -13,7 +13,7 @@ class TestCreateIncidence(BaseTestCase):
                          content_type='application/json')
 
         self.login_user = {'username': 'thegeek',
-                           'password': 'werfg'}
+                           'password': '6398litein'}
         login_response = self.client.post(
             'api/v2/auth/login',
             data=json.dumps(self.login_user), content_type='application/json')
