@@ -3,9 +3,12 @@ import re
 from marshmallow import Schema, fields,  validates, ValidationError
 
 
-def validate_length(input):
-    if input.strip() == '':
+def validate_length(value):
+    r = re.compile("^[A-Za-z0-9.,:;!?()\s]+$")
+    if value.strip() == '' or len(value) < 2:
         raise ValidationError({'message': 'fields cannot be blank'})
+    elif not r.match(value):
+        raise ValidationError('invalid {}'.format(value))
 
 
 class UserSchema(Schema):
