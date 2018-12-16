@@ -23,6 +23,7 @@ class User():
         self.password = generate_password_hash(password.strip())
 
     def __repr__(self):
+        """Creates a string representation of the User object"""
         return {
             'username': self.username,
             'isAdmin': self.isAdmin,
@@ -78,7 +79,7 @@ class User():
 
     @staticmethod
     def get_a_user(id):
-        """gets a user by """
+        """gets a user by id"""
         sql = f"SELECT * FROM users WHERE users.id={id}"
         curr = Db().cur
         curr.execute(sql)
@@ -87,6 +88,7 @@ class User():
 
     @classmethod
     def promote_user(cls, username):
+        """Promotes a normal user to an admin """
         sql = "UPDATE users SET isAdmin=True WHERE users.username=%s"
         conn = Db().con
         curr = conn.cursor()
@@ -95,6 +97,7 @@ class User():
 
     @classmethod
     def create_admin(cls):
+        """creates a default  admin"""
         try:
             admin = User('Larry', 'karani', 'kubende',
                          'karani@gmail.com', '0701043047',
@@ -106,6 +109,7 @@ class User():
 
 
 def admin_required(f):
+    """creates a decorator to limit a functionality to admin only"""
     @wraps(f)
     def wrapper(*args, **kwargs):
         user = User.check_username(get_jwt_identity())
