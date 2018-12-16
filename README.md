@@ -20,7 +20,6 @@ Method | Endpoint | Usage |
 |GET| `api/v2/interventions` | Get all the created incidents. |
 |GET| `api/v2/interventions/<red_flag_id>` | Get a single incident. |
 |GET| `api/v2/interventions/user` | Get all incident of the logged in user. |
-
 |PATCH| `api/v2/interventions/<red_flag_id>/location` | Update a single incident location. |
 |PATCH| `api/v2/interventions/<red_flag_id>/comment` | Update a single incident comment. |
 |PATCH| `api/v2/interventions/<red_flag_id>/status` | Update a single incident status. |
