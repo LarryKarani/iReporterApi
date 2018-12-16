@@ -46,7 +46,7 @@ class UpdateCommentSchema(Schema):
     comment = fields.String(required=True, validate=validate_length)
 
     @validates('comment')
-    def validate_location(self, comment):
+    def validate_comment(self, comment):
         r = re.compile("^[a-zA-Z ]*$")
         if comment.strip() == '':
             raise ValidationError('Fields cannot be blank')
@@ -74,7 +74,7 @@ class UpdateStatusSchema(Schema):
     status = fields.String(required=True, validate=validate_length)
 
     @validates('status')
-    def validate_location(self, status):
+    def validate_status(self, status):
         status_option = ['resolved', 'under investigation', 'draft']
         r = re.compile("^[a-zA-Z ]*$")
         if status.strip() == '':
