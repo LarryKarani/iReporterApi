@@ -18,13 +18,12 @@ Method | Endpoint | Usage |
 |POST| `api/v2/auth/logout` | Logs out a user.|
 |POST| `api/v2/interventions` | Create a new incident. |
 |GET| `api/v2/interventions` | Get all the created incidents. |
-|GET| `api/v2/interventions/<red_flag_id>` | Get a single incident. |
 |GET| `api/v2/interventions/user` | Get all incident of the logged in user. |
-
-|PATCH| `api/v2/interventions/<red_flag_id>/location` | Update a single incident location. |
-|PATCH| `api/v2/interventions/<red_flag_id>/comment` | Update a single incident comment. |
-|PATCH| `api/v2/interventions/<red_flag_id>/status` | Update a single incident status. |
-|DELETE| `api/v2/interventions/<red_flag_id>` | Delete a single incident. |
+|GET| `api/v2/interventions/<incident_id>` | Get a single incident. |
+|PATCH| `api/v2/interventions/<incident_id>/location` | Update a single incident location. |
+|PATCH| `api/v2/interventions/<incident_id>/comment` | Update a single incident comment. |
+|PATCH| `api/v2/interventions/<incident_id>/status` | Update a single incident status. |
+|DELETE| `api/v2/interventions/<incident_id>` | Delete a single incident. |
 
 ## Installation 🕵
 - To run on local machine git clone this project :
