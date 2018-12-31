@@ -47,10 +47,10 @@ class Register(Resource):
             data['othername'],
             data['email'],
             data['phoneNumber'],
-            data['username'],
+            data['username'].lower(),
             data['password']
         )
-        user = new_user.check_username(data['username'])
+        user = new_user.check_username(data['username'].lower())
         if user:
             return {'message': 'Username already exists'}, 400
 
