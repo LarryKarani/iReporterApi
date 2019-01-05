@@ -9,6 +9,7 @@ from app.api.v2.models.db import Db
 from app.api.v2.models.users import User
 from flask_jwt_extended import JWTManager
 from app.api.v2.views import blacklist
+from flask_cors import CORS
 db_object = Db()
 
 # this function returns the instance of the app
@@ -20,6 +21,7 @@ def create_app(config_name):
     db_object.create_tables()
     User.create_admin()
     jwt = JWTManager(app)
+    CORS(app)
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_SECRET_KEY'] = '%****#@#'
     app.config.from_object(config[config_name])
