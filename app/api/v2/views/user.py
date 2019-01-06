@@ -39,7 +39,8 @@ class Register(Resource):
 
         for e in error_types:
             if e in errors.keys():
-                return {'message': 'Invalid or missing {}'.format(e)}, 400
+                return {'message': 'Invalid or missing {}'.format(e),
+                        'status': 400}, 400
 
         new_user = User(
             data['firstname'],
@@ -52,17 +53,19 @@ class Register(Resource):
         )
         user = new_user.check_username(data['username'].lower())
         if user:
-            return {'message': 'Username already exists'}, 400
+            return {'message': 'Username already exists',
+                    'status': 400}, 400
 
         mail = new_user.check_email(data['email'])
         if mail:
-            return {'message': 'Email already exists'}, 400
+            return {'message': 'Email already exists',
+                    'status': 400}, 400
 
         new_user.register_user()
         del data['password']
         return {'message': 'User successfuly  added',
-                'data': data
-                }, 201
+                'data': data,
+                'status': 201}, 201
 
 
 class Login(Resource, User):
@@ -77,20 +80,24 @@ class Login(Resource, User):
 
         for e in error_types:
             if e in errors.keys():
-                return {'message': 'Invalid or missing {}'.format(e)}, 400
+                return {'message': 'Invalid or missing {}'.format(e),
+                        'status': 400}, 400
 
         current_user = User.check_username(data['username'])
 
         if not current_user:
-            return {'message': 'Username does not exist'}, 400
+            return {'message': 'Username does not exist',
+                    'status': 400}, 400
 
         if not check_password_hash(current_user[9], data['password'].strip()):
-            return {'message': f'Invalid username or password'}, 400
+            return {'message': f'Invalid username or password',
+                    'status': 400}, 400
 
         access_token = create_access_token(identity=data['username'])
 
         return {'message': 'Logged in as {}'.format(data['username']),
-                'access_token': access_token}, 200
+                'access_token': access_token,
+                'status': 200}, 200
 
 
 class Logout(Resource):
@@ -101,4 +108,5 @@ class Logout(Resource):
         """Log out a given user by blacklisting user's token"""
         jti = get_raw_jwt()["jti"]
         blacklist.add(jti)
-        return ({'message': "Successfully logged out"}), 200
+        return ({'message': "Successfully logged out",
+                 'status': 200}), 200
