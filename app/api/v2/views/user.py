@@ -94,10 +94,11 @@ class Login(Resource, User):
                     'status': 400}, 400
 
         access_token = create_access_token(identity=data['username'])
-
+        is_admin = current_user[8]
         return {'message': 'Logged in as {}'.format(data['username']),
                 'access_token': access_token,
-                'status': 200}, 200
+                'status': 200,
+                'is_admin': is_admin}, 200
 
 
 class Logout(Resource):
