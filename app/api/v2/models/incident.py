@@ -7,7 +7,7 @@ from app.api.v2.models.db import Db
 class Incidents():
     """handles all the incident related opperations"""
 
-    def __init__(self, createdBy, incidence_type, location, comment):
+    def __init__(self, createdBy, incidence_type, location, comment, images):
         self.createdOn = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.status = 'Draft'
         self.createdBy = createdBy
@@ -15,6 +15,7 @@ class Incidents():
         self.location = location
         self.comment = comment
         self.incidence_type = incidence_type
+        self.images = images
 
     def __repr__(self):
         """creates  a string representation of the incident class"""
@@ -40,15 +41,17 @@ class Incidents():
                                        type,\
                                        location,\
                                        status,\
-                                       comment)\
-            VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')
+                                       comment,\
+                                       images)\
+            VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')
             RETURNING id""" % (
             self.createdOn,
             self.createdBy,
             self.incidence_type,
             self.location,
             self.status,
-            self.comment
+            self.comment,
+            self.images
         )
         conn = self.db_obj.con
         curr = conn.cursor()

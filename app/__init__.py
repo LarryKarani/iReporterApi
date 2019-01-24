@@ -17,7 +17,7 @@ db_object = Db()
 
 def create_app(config_name):
     """app factory creates the instance of the app"""
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     db_object.create_tables()
     User.create_admin()
     jwt = JWTManager(app)

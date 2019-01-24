@@ -20,14 +20,15 @@ class TestRegesterUser(BaseTestCase):
         new_incident = Incidents(data['createdBy'],
                                  data['incidence_type'],
                                  data['location'],
-                                 data['comment']
+                                 data['comment'],
+                                 'No image'
                                  )
         new_incident.create_an_incident()
         output = new_incident.get_an_incident(1)
         self.assertIn(data['createdBy'], output)
 
     def test_get_an_incident(self):
-        data = self.incident_data
+        data = self.redflag_data
         dat = self.sign_up_data
         new_user = User(dat['firstname'],
                         dat['lastname'],
@@ -41,14 +42,15 @@ class TestRegesterUser(BaseTestCase):
         new_incident = Incidents(data['createdBy'],
                                  data['incidence_type'],
                                  data['location'],
-                                 data['comment']
+                                 data['comment'],
+                                 data['image']
                                  )
         new_incident.create_an_incident()
         output = new_incident.get_an_incident(1)[2]
         self.assertEqual(data['createdBy'], output)
 
     def test_get_all_incident(self):
-        data = self.incident_data
+        data = self.redflag_data
         dat = self.sign_up_data
         new_user = User(dat['firstname'],
                         dat['lastname'],
@@ -62,7 +64,8 @@ class TestRegesterUser(BaseTestCase):
         new_incident = Incidents(data['createdBy'],
                                  data['incidence_type'],
                                  data['location'],
-                                 data['comment']
+                                 data['comment'],
+                                 data['image']
                                  )
         new_incident.create_an_incident()
         output = new_incident.get_an_incident(1)

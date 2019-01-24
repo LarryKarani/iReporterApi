@@ -30,6 +30,7 @@ class Db:
                 registered VARCHAR(255) NOT NULL,
                 isAdmin BOOLEAN NOT NULL,
                 password VARCHAR(255) NOT NULL
+               
             )""",
             # creates ride_offer table
             """CREATE TABLE IF NOT EXISTS incidences(
@@ -40,6 +41,7 @@ class Db:
                 location VARCHAR(255) NOT NULL,
                 status VARCHAR(255) NOT NULL,
                 comment VARCHAR(255) NOT NULL,
+                images character varying(100),
                 FOREIGN KEY(createdBy) REFERENCES users(username)
 
             )""",

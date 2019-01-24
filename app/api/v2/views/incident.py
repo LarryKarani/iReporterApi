@@ -1,7 +1,15 @@
 import webargs
+import json
+import os
+
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask import request, url_for, current_app
 
+from werkzeug.utils import secure_filename
 # local import
 from app.api.v2.models.users import User
 from app.api.v2.models.users import admin_required
@@ -30,14 +38,36 @@ incident_data = v2_incident.model('Interventions', {
         description='name of the user creating the red-flag')
 })
 
+# UPLOAD_FOLDER = os.path.abspath("app/uploads")
+# ALLOWED_EXTENSIONS = set(['mp4', 'png', 'jpg', 'jpeg'])
+
 
 class Incidences(Resource, Incidents):
     @v2_incident.expect(incident_data)
     @v2_incident.doc(security='apikey')
     @jwt_required
     def post(self):
+
+        # cloudinary config files
+
+        cloudinary.config(
+            cloud_name=os.getenv('cloud_name'),
+            api_key=os.getenv("api_key"),
+            api_secret=os.getenv("api_secret")
+
+        )
+
+        @staticmethod
+        def allowed_file(filename):
+            return '.' in filename and \
+                filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
         '''Create a new incidence'''
-        data = v2_incident.payload
+        if request.form:
+            data = request.form
+        else:
+            data = json.loads(request.data)
+
         schema = IncidenceSchema()
         results = schema.load(data)
 
@@ -48,13 +78,31 @@ class Incidences(Resource, Incidents):
         for error in incidence_fields:
             if error in errors.keys():
                 return{'message': 'Invalid or missing {}'.format(error)}, 400
+        media_url = 'No image'
+        if request.files:
+            file = request.files['file']
 
+            if not os.path.isdir(current_app.config['UPLOAD_FOLDER']):
+                os.mkdir(current_app.config['UPLOAD_FOLDER'])
+
+            filename = secure_filename(file.filename)
+
+            filepath = os.path.join(
+                current_app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            url = cloudinary.uploader.upload(filepath, public_id=filename)
+            # url = cloudinary.utils.cloudinary_api_url(filename)
+            media_url = url['secure_url']
         current_user = get_jwt_identity()
         new_instance = Incidents(
             current_user,
             data['incidence_type'],
             data['location'],
-            data['comment']
+            data['comment'],
+            media_url
+
+
         )
         id = new_instance.create_an_incident()
 
@@ -97,7 +145,7 @@ class AnIncident(Resource, Incidents):
         '''Returns details of a specific incidence'''
 
         keys = ['id', 'createdon', 'createdby',
-                'type', 'location', 'status', 'comment']
+                'type', 'location', 'status', 'comment', 'image']
         incident = self.get_an_incident(incident_id)
         if not incident:
             return {'message': 'Incident does not exist'}, 404
@@ -123,7 +171,7 @@ class AnIncident(Resource, Incidents):
         if createdBy != current_user:
             return {"error":
                     "Not allowed to delete a comment you din't create"}, 405
-                    
+
         self.delete_incident(incident_id)
         return {
             'status': 200,

@@ -85,7 +85,8 @@ class BaseTestCase(unittest.TestCase):
             "createdBy": "thegeek",
             "incidence_type": "red-flag",
             "location": "90.0, 180.0",
-            "comment": "String"
+            "comment": "String",
+            'image': 'no image'
         }
 
         self.redflag_data_invalid_incident_type = {
