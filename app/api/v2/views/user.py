@@ -83,7 +83,7 @@ class Login(Resource, User):
                 return {'message': 'Invalid or missing {}'.format(e),
                         'status': 400}, 400
 
-        current_user = User.check_username(data['username'])
+        current_user = User.check_username(data['username'].lower())
 
         if not current_user:
             return {'message': 'Username does not exist',
