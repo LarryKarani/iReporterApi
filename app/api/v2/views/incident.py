@@ -118,11 +118,6 @@ class AnIncident(Resource, Incidents):
                 'message': 'Incident with given id {} does not exist'
                 .format(incident_id)}, 404
 
-        createdBy = incident[2]
-        current_user = get_jwt_identity()
-        if createdBy != current_user:
-            return {"error":
-                    "Not allowed to delete a comment you din't create"}, 405
                     
         self.delete_incident(incident_id)
         return {
@@ -165,11 +160,6 @@ class UpdateLocation(Resource, Incidents):
         if not target:
             return {'message': 'Incident does not exist'}, 404
 
-        createdBy = target[2]
-        current_user = get_jwt_identity()
-        if createdBy != current_user:
-            return {"error":
-                    "Not allowed to edit a location you din't create"}, 403
 
         if target[5] != 'Draft':
             return {"message": "You cant change location for this intervention\
@@ -224,11 +214,6 @@ class UpdateComment(Resource, Incidents):
         if not target:
             return {'message': 'Incident does not exist'}, 404
 
-        createdBy = target[2]
-        current_user = get_jwt_identity()
-        if createdBy != current_user:
-            return {"error":
-                    "Not allowed to edit a comment you din't create"}, 403
         status = target[5]
         if status != 'Draft':
             return {"message": "You cant change the comment for this\

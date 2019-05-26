@@ -1,4 +1,5 @@
 import webargs
+import datetime
 from flask_restplus import Resource, fields, Namespace
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
@@ -92,8 +93,9 @@ class Login(Resource, User):
         if not check_password_hash(current_user[9], data['password'].strip()):
             return {'message': f'Invalid username or password',
                     'status': 400}, 400
-
-        access_token = create_access_token(identity=data['username'])
+        
+        expires = datetime.timedelta(days=365)
+        access_token = create_access_token(identity=data['username'], expires_delta=expires)
         is_admin = current_user[8]
         return {'message': 'Logged in as {}'.format(data['username']),
                 'access_token': access_token,
