@@ -55,12 +55,8 @@ class UpdateLocationSchema(Schema):
 
     @validates('location')
     def validate_location(self, location):
-        r = re.compile("^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|\
-        ((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$")
         if location.strip() == '':
             raise ValidationError('Fields cannot be blank')
-        elif not r.match(location):
-            raise ValidationError("{} is not a valid comment".format(location))
 
 
 class UpdateStatusSchema(Schema):
